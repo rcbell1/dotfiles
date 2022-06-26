@@ -1,0 +1,22 @@
+pane	integration	0	0	:	0	wcsng-25	:/mnt/ssd_data/skadaveru/scisrs/scisrs_c	1	bash	:
+pane	integration	1	0	:	0	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	1	bash	:
+pane	integration	1	0	:	1	wcsng-25	:/mnt/ssd_data/skadaveru/scisrs/scisrs_redisDB	0	docker-compose	:docker-compose up
+pane	integration	2	0	:	0	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	1	docker-compose	:docker-compose up --no-deps banderole
+pane	integration	2	0	:	1	wcsng-25	:/home/rbell/Documents/gitrepos/banderole	0	bash	:
+pane	integration	3	0	:-	0	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	0	bash	:
+pane	integration	3	0	:-	1	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	1	docker-compose	:docker-compose up --no-deps searchlight
+pane	integration	3	0	:-	2	wcsng-25	:/home/rbell	0	bash	:
+pane	integration	4	0	:	0	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	1	bash	:
+pane	integration	5	1	:*	0	wcsng-25	:/home/rbell/Documents/gitrepos/ectb-scisrs-docker	1	bash	:
+pane	integration	5	1	:*	1	wcsng-25	:/mnt/ssd_data/skadaveru/scisrs/scisrs_c	0	bash	:
+pane	integration	6	0	:	0	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	1	bash	:
+pane	integration	6	0	:	1	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight/matlab/bndrlmex	0	bash	:
+pane	integration	6	0	:	2	root@42c507158689: /usr/local/lib	:/mnt/ssd_data/skadaveru/scisrs/scisrs_redisDB	0	bash	:
+window	integration	0	:Frontend	0	:	d87f,204x60,0,0,20	off
+window	integration	1	:Reddis	0	:	91d8,204x60,0,0{102x60,0,0,2,101x60,103,0,16}	off
+window	integration	2	:Banderole	0	:	11d9,204x60,0,0{102x60,0,0,5,101x60,103,0,14}	off
+window	integration	3	:Searchlight	0	:-	ec8e,204x60,0,0{101x60,0,0,11,102x60,102,0[102x29,102,0,13,102x30,102,30,15]}	off
+window	integration	4	:Wayfinder	0	:	b0a3,204x60,0,0,6	off
+window	integration	5	:Git	1	:*	11d9,204x60,0,0{102x60,0,0,7,101x60,103,0,12}	off
+window	integration	6	:Debug	0	:	71bd,204x60,0,0{98x60,0,0,0,105x60,99,0[105x37,99,0,3,105x22,99,38,4]}	off
+state	integration	

@@ -1,0 +1,24 @@
+pane	integration	0	0	:M	0	wcsng-25	:/home/rbell/Documents/gitrepos/ectb-scisrs/build/frontend	0	./scisrs_frontend	:./scisrs_frontend 1-file.json 172.17.0.1:49001
+pane	integration	0	0	:M	1	:/home/rbell/Documents/gitrepos/banderole/iface	1	htop	3997	:
+pane	integration	1	0	:	0	wcsng-25	:/mnt/ssd_data/skadaveru/scisrs/scisrs_redisDB	0	docker-compose	:docker-compose up
+pane	integration	1	0	:	1	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	1	bash	:
+pane	integration	2	0	:-	0	wcsng-25	:/home/rbell/Documents/gitrepos/banderole	1	docker-compose	:docker-compose up
+pane	integration	2	0	:-	1	wcsng-25	:/home/rbell/Documents/gitrepos/banderole	0	nload	:nload
+pane	integration	3	1	:*	0	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	0	docker-compose	:docker-compose up --no-deps searchlight
+pane	integration	3	1	:*	1	wcsng-25	:/home/rbell/Documents/gitrepos/searchlight	1	tmux	:
+pane	integration	4	0	:	0	wcsng-25	:/home/rbell/Documents/gitrepos/wayfinder	1	docker-compose	:docker-compose up
+pane	integration	5	0	:	0	wcsng-25	:/home/rbell/Documents/gitrepos/ectb-scisrs-docker	0	bash	:
+pane	integration	5	0	:	1	wcsng-25	:/home/rbell/Documents/gitrepos/banderole	1	vim	:vim ../banderole/docker-compose.yml
+pane	integration	5	0	:	2	wcsng-25	:/mnt/ssd_data/skadaveru/scisrs/scisrs_c	0	bash	:
+pane	integration	6	0	:	0	wcsng-25	:/home/rbell/Documents/gitrepos/ectb-scisrs/build/frontend	1	bash	:
+pane	integration	6	0	:	1	wcsng-25	:/home/rbell/Documents/gitrepos/ectb-scisrs	0	bash	:
+pane	integration	7	0	:	0	wcsng-25	:/home/rbell	1	bash	:
+window	integration	0	:Frontend	0	:M	e527,204x60,0,0{90x60,0,0,20,113x60,91,0,22}	off
+window	integration	1	:Redis	0	:	4221,204x60,0,0{102x60,0,0,16,101x60,103,0,2}	off
+window	integration	2	:Banderole	0	:-	11d9,204x60,0,0{102x60,0,0,5,101x60,103,0,14}	off
+window	integration	3	:Searchlight	1	:*	dd4d,204x60,0,0{101x60,0,0,11,102x60,102,0,13}	off
+window	integration	4	:Wayfinder	0	:	b0a3,204x60,0,0,6	off
+window	integration	5	:Git	0	:	775f,204x60,0,0{102x60,0,0[102x30,0,0,7,102x29,0,31,23],101x60,103,0,12}	off
+window	integration	6	:Debug	0	:	6159,204x60,0,0{98x60,0,0,0,105x60,99,0,3}	off
+window	integration	7	:bash	0	:	d884,204x60,0,0,25	:
+state	integration	
