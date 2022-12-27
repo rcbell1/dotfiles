@@ -27,6 +27,10 @@ alias setbuffs='sudo sysctl -w net.core.rmem_max=33554432;sudo sysctl -w net.cor
 alias setethtool='sudo ethtool -G enp181s0f0 tx 4096 rx 4096;sudo ethtool -G enp181s0f1 tx 4096 rx 4096'
 
 # custom command prompt
-export PROMPT_COMMAND="echo -n \[\$(date +%H:%M:%S\ %D)\]\ "
-PS1=${PS1%?}
-PS1=${PS1%?}\n'$ '
+# export PROMPT_COMMAND="echo -n \[\$(date +%T\ %D\ %A)\]\ "
+# export PROMPT_COMMAND=""
+# PS1=${PS1%?}
+# PS1=${PS1%?}\n'$ '
+
+# PS1=${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ 
+PS1="\[\033[01;36m\][\$(date +%T\ %D\ %A)] \[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\n\[\033[00m\]\$ "
