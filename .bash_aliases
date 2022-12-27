@@ -1,7 +1,6 @@
 #export PYTHONPATH=/usr/local/lib/python3/dist-packages
 export BAT_THEME="Dracula"
 export PATH=$PATH:/home/rbell/.local/bin
-export PROMPT_COMMAND="echo -n \[\$(date +%H:%M:%S\ %m/%d)\]\ "
 
 # INITIAL_QUERY=""
 # RG_PREFIX="rg --line-number --color=always --smart-case "
@@ -26,3 +25,8 @@ export FZF_DEFAULT_OPTS='--bind J:down,K:up --reverse --ansi --multi --preview "
 alias glog='git log --oneline --decorate --graph --all'
 alias setbuffs='sudo sysctl -w net.core.rmem_max=33554432;sudo sysctl -w net.core.wmem_max=33554432;sudo sysctl -w net.core.wmem_default=33554432;sudo sysctl -w net.core.rmem_default=33554432'
 alias setethtool='sudo ethtool -G enp181s0f0 tx 4096 rx 4096;sudo ethtool -G enp181s0f1 tx 4096 rx 4096'
+
+# custom command prompt
+export PROMPT_COMMAND="echo -n \[\$(date +%H:%M:%S\ %D)\]\ "
+PS1=${PS1%?}
+PS1=${PS1%?}\n'$ '
