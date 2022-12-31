@@ -26,11 +26,22 @@ alias glog='git log --oneline --decorate --graph --all'
 alias setbuffs='sudo sysctl -w net.core.rmem_max=33554432;sudo sysctl -w net.core.wmem_max=33554432;sudo sysctl -w net.core.wmem_default=33554432;sudo sysctl -w net.core.rmem_default=33554432'
 alias setethtool='sudo ethtool -G enp181s0f0 tx 4096 rx 4096;sudo ethtool -G enp181s0f1 tx 4096 rx 4096'
 
-# custom command prompt
-# export PROMPT_COMMAND="echo -n \[\$(date +%T\ %D\ %A)\]\ "
-# export PROMPT_COMMAND=""
-# PS1=${PS1%?}
-# PS1=${PS1%?}\n'$ '
+# enable tab autocompletions for git things like branches
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+# test -f ~/.git-completion.bash && . $_  # same as above but one line
 
-# PS1=${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ 
-PS1="\[\033[01;36m\][\$(date +%T\ %D\ %A)] \[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\n\[\033[00m\]\$ "
+# enable custom prompt with git info
+if [ -f ~/.git-prompt.sh ]; then
+    . ~/.git-prompt.sh
+fi
+
+# custom command prompt
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWCOLORHINTS=1
+# no background colors in prompt
+# export PROMPT_COMMAND='__git_ps1 "\[\e[01;36m\][\$(date +%T\ %D\ %A)] \[\e[01;32m\]\u@\h:\[\e[01;34m\]\w" "\[\e[00m\]\$ " "\[\e[00m\]\n\[\e[36m\][%s]"'
+# with background colors in prompt
+export PROMPT_COMMAND='__git_ps1 "\[\e[01;42;30m\][\$(date +%T\ %D\ %A)] \[\e[01;105;97m\]\u@\h:\[\e[01;44;32m\]\w" "\[\e[00m\]\$ " "\[\e[00m\]\n\[\e[36m\][%s]"'
