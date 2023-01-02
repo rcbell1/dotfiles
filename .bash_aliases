@@ -44,4 +44,5 @@ export GIT_PS1_SHOWCOLORHINTS=1
 # no background colors in prompt
 # export PROMPT_COMMAND='__git_ps1 "\[\e[01;36m\][\$(date +%T\ %D\ %A)] \[\e[01;32m\]\u@\h:\[\e[01;34m\]\w" "\[\e[00m\]\$ " "\[\e[00m\]\n\[\e[36m\][%s]"'
 # with background colors in prompt
-export PROMPT_COMMAND='__git_ps1 "\[\e[01;42;30m\][\$(date +%T\ %D\ %A)] \[\e[01;105;97m\]\u@\h:\[\e[01;44;32m\]\w" "\[\e[00m\]\$ " "\[\e[00m\]\n\[\e[36m\][%s]"'
+#export PROMPT_COMMAND='__git_ps1 "\[\e[01;42;30m\][\$(date +%T\ %D\ %A)] \[\e[01;105;97m\]\u@\h:\[\e[01;44;32m\]\w" "\[\e[00m\]\$ " "\[\e[00m\]\n\[\e[36m\][%s]"'
+eval "$(starship init bash)"
