@@ -61,7 +61,7 @@ truncation_length = 8
 truncation_symbol = "…/"
 
 [conda]
-format = '[\($environment\) ](bold green)'
+format = '[\($environment\)](bold green)'
 ignore_base = false
 
 # Here is how you can shorten some long paths by text replacement
