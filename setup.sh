@@ -9,6 +9,7 @@ fc-cache -f -v
 # clone the tmux plugin manager tpm
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+ln -s ~/dotfiles/.bash_profile ~/.bash_profile
 ln -s ~/dotfiles/.bash_aliases ~/.bash_aliases
 ln -s ~/dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
