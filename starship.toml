@@ -1,16 +1,14 @@
 format = """
-[](#33658A)\
-$time\
-[](bg:#9A348E fg:#33658A)\
+[](fg:#9A348E)\
 $os\
 $username\
 $hostname\
-[](bg:#DA627D fg:#9A348E)\
+[](fg:#9A348E bg:#DA627D)\
 $directory\
-[](fg:#DA627D bg:#FCA17D)\
+[](fg:#DA627D bg:#8A8AFF)\
 $git_branch\
 $git_status\
-[](fg:#FCA17D bg:#86BBD8)\
+[](fg:#8A8AFF bg:#86BBD8)\
 $c\
 $elixir\
 $elm\
@@ -25,12 +23,16 @@ $scala\
 [](fg:#86BBD8 bg:#06969A)\
 $docker_context\
 [](fg:#06969A)\
-$cmd_duration
+$fill\
+$cmd_duration\
+$time\
+$line_break\
 $conda[❯ ](fg:#FFA500)
 """
 
 # Disable the blank line at the start of the prompt
 add_newline = false
+command_timeout = 1000
 
 # You can also replace your username with a neat symbol like   or disable this
 # and use the os module below
@@ -38,12 +40,12 @@ add_newline = false
 show_always = true
 style_user = "bg:#9A348E"
 style_root = "bg:#9A348E"
-format = "[ $user]($style)"
+format = "[$user]($style)"
 disabled = false
 
 [hostname]
 style = "bg:#9A348E"
-format = "[@$hostname ]($style)"
+format = "[@$hostname]($style)"
 disabled = false
 ssh_only = false
 
@@ -55,7 +57,7 @@ disabled = true # Disabled by default
 
 [directory]
 style = "bg:#DA627D"
-format = "[ $path ]($style)"
+format = "[$path]($style)"
 truncate_to_repo = false
 truncation_length = 8
 truncation_symbol = "…/"
@@ -99,11 +101,11 @@ format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
 symbol = ""
-style = "bg:#FCA17D"
+style = "bg:#8A8AFF"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#FCA17D"
+style = "bg:#8A8AFF"
 format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
@@ -149,7 +151,7 @@ format = '[ $symbol ($version) ]($style)'
 [time]
 disabled = false
 time_format = "%T %D" # Hour:Minute Format
-style = "bg:#33658A"
+style = "bold blue" #"bg:#33658A"
 format = '[$time]($style)'
 
 [cmd_duration]
@@ -158,3 +160,6 @@ min_time = 10
 show_milliseconds = true
 style = "bold green"
 format = '[ $duration ]($style)'
+
+[fill]
+symbol = "."
