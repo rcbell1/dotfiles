@@ -29,8 +29,11 @@ export GIT_PS1_SHOWCOLORHINTS=1
 #export PROMPT_COMMAND='__git_ps1 "\[\e[01;42;30m\][\$(date +%T\ %D\ %A)] \[\e[01;105;97m\]\u@\h:\[\e[01;44;32m\]\w" "\[\e[00m\]\$ " "\[\e[00m\]\n\[\e[36m\][%s]"'
 eval "$(starship init bash)"
 
-# Aliases
-alias glog='git log --oneline --graph --format="%C(yellow)%h %C(blue)%an %C(green)%ad %C(reset)%s" --date=format:"%m/%d/%y %H:%M:%S"'
+# Bash aliases
 alias setbuffs='sudo sysctl -w net.core.rmem_max=33554432;sudo sysctl -w net.core.wmem_max=33554432;sudo sysctl -w net.core.wmem_default=33554432;sudo sysctl -w net.core.rmem_default=33554432'
 alias setethtool='sudo ethtool -G enp181s0f0 tx 4096 rx 4096;sudo ethtool -G enp181s0f1 tx 4096 rx 4096'
 alias duh='du -hd 1'
+
+# Git aliases
+alias glog='git log --oneline --graph --format="%C(yellow)%h %C(blue)%an %C(green)%ad %C(reset)%s" --date=format:"%m/%d/%y %H:%M:%S"'
+alias gsub='git submodule update --init --recursive'
