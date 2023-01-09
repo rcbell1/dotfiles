@@ -35,5 +35,7 @@ alias setethtool='sudo ethtool -G enp181s0f0 tx 4096 rx 4096;sudo ethtool -G enp
 alias duh='du -hd 1'
 
 # Git aliases
-alias glog='git log --oneline --graph --format="%C(yellow)%h %C(blue)%an %C(green)%ad %C(reset)%s" --date=format:"%m/%d/%y %H:%M:%S"'
+alias glog='git log --oneline --graph --format="%C(yellow)%h %C(blue)%an %C(green)%ad %C(bold red)%d %C(reset)%s" --date=format:"%m/%d/%y %H:%M:%S"'
 alias gsub='git submodule update --init --recursive'
+alias gs='git status'
+alias gdiff='git difftool -t vimdiff -y -c "set number"'
