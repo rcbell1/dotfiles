@@ -19,7 +19,9 @@ export FZF_ALT_C_COMMAND='bfs -type d -nohidden -exclude -name "Music" -exclude 
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS='--bind J:down,K:up --reverse --ansi --multi --preview "bat --style=numbers --color=always --line-range :500 {}"'
 
-# custom command prompt
+export PYTHONPATH="${PYTHONPATH}:/home/rbell/miniconda3/lib/python3.8/site-packages/"
+
+#custom command prompt
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
@@ -38,4 +40,4 @@ alias duh='du -hd 1'
 alias glog='git log --oneline --graph --format="%C(yellow)%h %C(blue)%an %C(green)%ad %C(bold red)%d %C(reset)%s" --date=format:"%m/%d/%y %H:%M:%S"'
 alias gsub='git submodule update --init --recursive'
 alias gs='git status'
-alias gdiff='git difftool -t vimdiff -y -c "set number"'
+alias gdiff='git difftool -t vimdiff -y'
