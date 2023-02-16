@@ -11,7 +11,7 @@ fc-cache -f -v
 fi
 
 # clone the tmux plugin manager tpm, Ctrl+b Shift+i to install plugins
-[! -d ~/.tmux/plugins/tpm] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+[ ! -d ~/.tmux/plugins/tpm ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # download and install latest stable neovim
 sudo snap install nvim --classic
@@ -43,4 +43,5 @@ node -v
 [ -f ~/.vimrc ] || ln -s ~/dotfiles/.vimrc ~/.vimrc
 mkdir -p ~/.config && [ -f ~/.config/starship.toml ] || ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
 [ -d ~/.config/nvim ] || ln -s ~/dotfiles/nvim ~/.config/nvim
+[ -f /usr/bin/bat ] || sudo ln -s /usr/bin/batcat /usr/bin/bat
 
