@@ -41,3 +41,4 @@ alias glog='git log --oneline --graph --format="%C(yellow)%h %C(blue)%an %C(gree
 alias gsub='git submodule update --init --recursive'
 alias gs='git status'
 alias gdiff='git difftool -t vimdiff -y'
+alias lg='lazygit'
