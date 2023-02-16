@@ -1,0 +1,5 @@
+# Key bindings
+# bind -x '"\C-\040": clear' # binds clear to Ctrl+spacebar
+# bind '"\C-k"':kill-line
+bind -x '"\C-h": kill-line'
+bind -x '"\C-b": clear'
