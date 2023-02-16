@@ -36,6 +36,10 @@ sudo apt -y install nodejs
 sudo apt -y install build-essential
 node -v
 
+# clone and install fzf
+[ -f ~/.fzf ] || git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --all
+
 [ -f ~/.bash_profile ] || ln -s ~/dotfiles/.bash_profile ~/.bash_profile
 [ -f ~/.bash_aliases ] || ln -s ~/dotfiles/.bash_aliases ~/.bash_aliases
 [ -f ~/.gitconfig ] || ln -s ~/dotfiles/.gitconfig ~/.gitconfig
@@ -44,3 +48,4 @@ node -v
 mkdir -p ~/.config && [ -f ~/.config/starship.toml ] || ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
 [ -d ~/.config/nvim ] || ln -s ~/dotfiles/nvim ~/.config/nvim
 
+source ~/.bashrc
