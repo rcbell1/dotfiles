@@ -11,7 +11,6 @@ if [ -f ~/.git-prompt.sh ]; then
     . ~/.git-prompt.sh
 fi
 
-#export PYTHONPATH=/usr/local/lib/python3/dist-packages
 export BAT_THEME="Dracula"
 export PATH=$PATH:/home/rbell/.local/bin
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,output,node_modules,*.swp,dist,*.coffee}/*" 2> /dev/null'
@@ -19,7 +18,8 @@ export FZF_ALT_C_COMMAND='bfs -type d -nohidden -exclude -name "Music" -exclude 
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS='--bind J:down,K:up --reverse --ansi --multi --preview "bat --style=numbers --color=always --line-range :500 {}"'
 
-export PYTHONPATH="${PYTHONPATH}:/home/rbell/miniconda3/lib/python3.8/site-packages/"
+# export PYTHONPATH="${PYTHONPATH}:/home/rbell/miniconda3/lib/python3.8/site-packages/"
+# export PYTHONPATH=/usr/local/lib/python3/dist-packages
 
 # this is useful when using virtualenv for python
 export WORKON_HOME=~/virtualenvs
