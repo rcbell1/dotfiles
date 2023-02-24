@@ -21,6 +21,12 @@ export FZF_DEFAULT_OPTS='--bind J:down,K:up --reverse --ansi --multi --preview "
 
 export PYTHONPATH="${PYTHONPATH}:/home/rbell/miniconda3/lib/python3.8/site-packages/"
 
+# this is useful when using virtualenv for python
+export WORKON_HOME=~/virtualenvs
+function workon {
+  source "$WORKON_HOME/$1/bin/activate"
+}
+
 #custom command prompt
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
