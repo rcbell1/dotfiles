@@ -41,6 +41,9 @@ eval "$(starship init bash)"
 alias setbuffs='sudo sysctl -w net.core.rmem_max=33554432;sudo sysctl -w net.core.wmem_max=33554432;sudo sysctl -w net.core.wmem_default=33554432;sudo sysctl -w net.core.rmem_default=33554432'
 alias setethtool='sudo ethtool -G enp181s0f0 tx 4096 rx 4096;sudo ethtool -G enp181s0f1 tx 4096 rx 4096'
 alias duh='du -hd 1'
+alias bat='batcat'
+alias vim='nvim'
+alias vi='vim' 
 
 # Git aliases
 alias glog='git log --oneline --graph --format="%C(yellow)%h %C(blue)%an %C(green)%ad %C(bold red)%d %C(reset)%s" --date=format:"%m/%d/%y %H:%M:%S"'
@@ -48,3 +51,4 @@ alias gsub='git submodule update --init --recursive'
 alias gs='git status'
 alias gdiff='git difftool -t vimdiff -y'
 alias lg='lazygit'
+alias gd='git diff'

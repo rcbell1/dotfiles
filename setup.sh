@@ -40,6 +40,11 @@ node -v
 [ -f ~/.fzf ] || git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
 
+# install bat, the cat replacement with better options
+curl -L https://github.com/sharkdp/bat/releases/download/v0.22.1/bat-musl_0.22.1_amd64.deb -o bat.deb
+sudo dpkg -i bat.deb
+rm bat.deb
+
 [ -f ~/.bash_profile ] || ln -s ~/dotfiles/.bash_profile ~/.bash_profile
 [ -f ~/.bash_aliases ] || ln -s ~/dotfiles/.bash_aliases ~/.bash_aliases
 [ -f ~/.gitconfig ] || ln -s ~/dotfiles/.gitconfig ~/.gitconfig
