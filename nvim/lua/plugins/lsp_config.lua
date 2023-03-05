@@ -64,6 +64,10 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
 vim.diagnostic.config{
   float={border=_border}
 }
+
+require('lspconfig.ui.windows').default_options = {
+  border = _border
+}
 -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- require("lspconfig").lua_ls.setup {
