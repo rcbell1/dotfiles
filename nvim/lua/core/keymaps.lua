@@ -20,3 +20,8 @@ map('n', '<C-l>', '<C-w>l')
 map('n', '<Tab>', ':bnext<CR>')
 map('n', '<S-Tab>', ':bprevious<CR>')
 map('n', '<C-g>', ':LazyGit<CR>')
+
+-- Change git copilot code accept key (default Tab)
+vim.g.copilot_no_tab_map = true
+map("i", "<C-Y>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+
