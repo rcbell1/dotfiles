@@ -25,7 +25,7 @@ opt.relativenumber = true   -- Show relative line numbers from current line
 opt.showmatch = true        -- Highlight matching parenthesis
 opt.foldmethod = 'marker'   -- Enable folding (default 'foldmarker')
 opt.colorcolumn = '88'      -- Line lenght marker at 80 columns
-vim.cmd('hi ColorColumn ctermbg=0 guibg=#3c3836') -- Color for colorcolumn
+vim.cmd('highlight ColorColumn ctermbg=0 guibg=#3c3836') -- Color for colorcolumn
 opt.splitright = true       -- Vertical split to the right
 opt.splitbelow = true       -- Horizontal split to the bottom
 opt.ignorecase = true       -- Ignore case letters when search
