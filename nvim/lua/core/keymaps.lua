@@ -25,3 +25,4 @@ map('n', '<C-g>', ':LazyGit<CR>')
 vim.g.copilot_no_tab_map = true
 map("i", "<C-Y>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
+vim.api.nvim_command('highlight ColorColumn ctermbg=0 guibg=#3c3836') -- Color for colorcolumn

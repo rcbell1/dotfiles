@@ -1,0 +1,14 @@
+Host wcsng25
+    Hostname wcsng-25.nrp-nautilus.io
+    User rbell
+    Port 42672
+
+Host wcsng26
+    Hostname wcsng-26.nrp-nautilus.io
+    User rbell
+    Port 42672
+
+Host wcsng36
+    Hostname wcsng-36.nrp-nautilus.io
+    User rbell
+    Port 42671

@@ -45,6 +45,7 @@ curl -L https://github.com/sharkdp/bat/releases/download/v0.22.1/bat-musl_0.22.1
 sudo dpkg -i bat.deb
 rm bat.deb
 
+# create symlinks to dotfiles if they don't already exist
 [ -f ~/.bash_profile ] || ln -s ~/dotfiles/.bash_profile ~/.bash_profile
 [ -f ~/.bash_aliases ] || ln -s ~/dotfiles/.bash_aliases ~/.bash_aliases
 [ -f ~/.gitconfig ] || ln -s ~/dotfiles/.gitconfig ~/.gitconfig
@@ -53,5 +54,6 @@ rm bat.deb
 mkdir -p ~/.config && [ -f ~/.config/starship.toml ] || ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
 [ -d ~/.config/nvim ] || ln -s ~/dotfiles/nvim ~/.config/nvim
 [ -f /usr/bin/bat ] || sudo ln -s /usr/bin/batcat /usr/bin/bat
+[ -f ~/.ssh/config ] || sudo ln -s ~/dotfiles/config ~/.ssh/config
 
 source ~/.bashrc
