@@ -44,6 +44,7 @@ alias duh='du -hd 1'
 # alias bat='batcat'
 alias vim='nvim'
 alias vi='vim' 
+alias fd='fdfind'
 
 # Git aliases
 alias glog='git log --oneline --graph --format="%C(yellow)%h %C(blue)%an %C(green)%ad %C(bold red)%d %C(reset)%s" --date=format:"%m/%d/%y %H:%M:%S"'

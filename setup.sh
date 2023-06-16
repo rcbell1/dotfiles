@@ -1,7 +1,14 @@
 #!/bin/bash
+sudo apt update
+sudo apt install gnome-tweaks
+sudo apt install xclip
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
-[ -f ~/.config/starship.toml ] || curl -sS https://starship.rs/install.sh | sh
+
+# for ubuntu versions that do not have starship available in snap
+# [ -f ~/.config/starship.toml ] || curl -sS https://starship.rs/install.sh | sh
+# for ubuntu version that have starship in snap
+sudo snap install starship --edge
 
 # download and install nerd font, needed for glyphs used by starship
 FILE=/usr/share/fonts/'Ubuntu Mono Nerd Font Complete Mono.ttf'
@@ -39,6 +46,7 @@ node -v
 # clone and install fzf
 [ -f ~/.fzf ] || git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
+sudo apt -y install fd-find
 
 # install bat, the cat replacement with better options
 curl -L https://github.com/sharkdp/bat/releases/download/v0.22.1/bat-musl_0.22.1_amd64.deb -o bat.deb

@@ -36,7 +36,7 @@ packer.init {
 
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-  
+
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
@@ -44,7 +44,7 @@ return require('packer').startup(function(use)
     },
     tag = 'nightly' -- optional, updated every week. (see issue #1193)
   }
-  
+
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
@@ -112,7 +112,7 @@ return require('packer').startup(function(use)
   use({
 	"L3MON4D3/LuaSnip",
 	-- follow latest release.
-	tag = "v<CurrentMajor>.*",
+	tag = "v1.*",
 	-- install jsregexp (optional!:).
 	run = "make install_jsregexp"
   })

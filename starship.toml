@@ -1,14 +1,14 @@
 format = """
-[](fg:#9A348E)\
+[](fg:#B419BD)\
 $os\
 $username\
 $hostname\
-[](fg:#9A348E bg:#666633)\
+[](fg:#B419BD bg:#C4391D)\
 $directory\
-[](fg:#666633 bg:#8A8AFF)\
+[](fg:#C4391D bg:#1649F2)\
 $git_branch\
 $git_status\
-[](fg:#8A8AFF bg:#86BBD8)\
+[](fg:#1649F2 bg:#86BBD8)\
 $c\
 $elixir\
 $elm\
@@ -39,13 +39,13 @@ command_timeout = 1000
 # and use the os module below
 [username]
 show_always = true
-style_user = "bg:#9A348E"
-style_root = "bg:#9A348E"
+style_user = "bg:#B419BD"
+style_root = "bg:#B419BD"
 format = "[$user]($style)"
 disabled = false
 
 [hostname]
-style = "bg:#9A348E"
+style = "bg:#B419BD"
 format = "[@$hostname]($style)"
 disabled = false
 ssh_only = false
@@ -57,7 +57,7 @@ style = "bg:#9A348E"
 disabled = true # Disabled by default
 
 [directory]
-style = "bg:#666633" #"bg:#DA627D"
+style = "bg:#C4391D" #"bg:#DA627D"
 format = "[$path]($style)"
 truncate_to_repo = false
 truncation_length = 8
@@ -70,7 +70,7 @@ ignore_base = false
 # Here is how you can shorten some long paths by text replacement
 # similar to mapped_locations in Oh My Posh:
 [directory.substitutions]
-"Documents" = ""
+"Documents" = "󰈙"
 "Downloads" = ""
 "Music" = ""
 "Pictures" = ""
@@ -102,11 +102,11 @@ format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
 symbol = " "
-style = "bg:#8A8AFF"
+style = "bg:#1649F2"
 format = '[$symbol $branch]($style)'
 
 [git_status]
-style = "bg:#8A8AFF"
+style = "bg:#1649F2"
 format = '[ $all_status$ahead_behind ]($style)'
 
 [golang]
@@ -157,15 +157,17 @@ format = '[ $symbol ($version) ]($style)'
 [time]
 disabled = false
 time_format = "%T %D" # Hour:Minute Format
-style = "bold blue" #"bg:#33658A"
+style = "bold cyan" #"bg:#33658A"
 format = '[$time]($style)'
 
 [cmd_duration]
 disabled = false
 min_time = 10
 show_milliseconds = true
-style = "bold green"
+style = "fg:bold green"
 format = '[ $duration ]($style)'
 
 [fill]
+style = "white"
 symbol = "."
+format = '[$symbol]($style)'
