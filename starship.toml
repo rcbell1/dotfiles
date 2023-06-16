@@ -164,10 +164,9 @@ format = '[$time]($style)'
 disabled = false
 min_time = 10
 show_milliseconds = true
-style = "fg:bold green"
+style = "bold green"
 format = '[ $duration ]($style)'
 
 [fill]
-style = "white"
+style = "fg:#FFFFFF"
 symbol = "."
-format = '[$symbol]($style)'
