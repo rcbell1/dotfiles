@@ -8,7 +8,7 @@ $directory\
 [](fg:#C4391D bg:#1649F2)\
 $git_branch\
 $git_status\
-[](fg:#1649F2 bg:#86BBD8)\
+[](fg:#1649F2 bg:#C70431)\
 $c\
 $elixir\
 $elm\
@@ -21,7 +21,7 @@ $nim\
 $python\
 $rust\
 $scala\
-[](fg:#86BBD8 bg:#06969A)\
+[](fg:#C70431 bg:#06969A)\
 $docker_context\
 [](fg:#06969A)\
 $fill\
@@ -141,7 +141,8 @@ format = '[ $symbol ($version) ]($style)'
 
 [python]
 symbol = ""
-style = "bg:#86BBD8"
+# style = "bg:#86BBD8"
+style = "bg:#C70431"
 format = '[ $symbol ($version) \($virtualenv\) ]($style)'
 
 [rust]
