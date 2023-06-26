@@ -11,9 +11,10 @@ curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-pro
 sudo snap install starship --edge
 
 # download and install nerd font, needed for glyphs used by starship
-FILE=/usr/share/fonts/'Ubuntu Mono Nerd Font Complete Mono.ttf'
+FILE=/usr/share/fonts/UbuntuMonoNerdFontMono-Regular.ttf
 if [ ! -f "$FILE" ]; then
-sudo curl -L https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete%20Mono.ttf  -o "$FILE"
+# sudo curl -L https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete%20Mono.ttf  -o "$FILE"
+sudo curl -L https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/UbuntuMonoNerdFontMono-Regular.ttf -o "$FILE"
 fc-cache -f -v
 fi
 
