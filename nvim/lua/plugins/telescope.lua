@@ -15,10 +15,10 @@ require('telescope').setup{
   }
 }
 
-vim.keymap.set('n', '<C-f>', builtin.find_files, {})
-vim.keymap.set('n', '<C-w>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<C-w>fb', builtin.buffers, {})
-vim.keymap.set('n', '<C-w>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<C-w>fo', builtin.oldfiles, {})
-vim.keymap.set('n', '<C-w>fc', builtin.commands, {})
-vim.keymap.set('n', '<C-w>ft', builtin.treesitter, {})
+-- vim.keymap.set('n', '<C-f>', builtin.live_grep, {})
+-- vim.keymap.set('n', '<Leader>ff', builtin.find_files, {})
+-- vim.keymap.set('n', '<Leader>fb', builtin.buffers, {})
+-- vim.keymap.set('n', '<Leader>fh', builtin.help_tags, {})
+-- vim.keymap.set('n', '<Leader>fo', builtin.oldfiles, {})
+-- vim.keymap.set('n', '<Leader>fc', builtin.commands, {})
+-- vim.keymap.set('n', '<Leader>ft', builtin.treesitter, {})

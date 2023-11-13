@@ -37,6 +37,9 @@ packer.init {
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
+  use 'rust-lang/rust.vim' 
+  use 'simrat39/rust-tools.nvim'
+
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
@@ -49,9 +52,17 @@ return require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
-  -- use 'Mofiqul/dracula.nvim'
+
   use 'folke/tokyonight.nvim'
-  use 'nvim-treesitter/nvim-treesitter'
+  use 'askfiy/visual_studio_code'
+
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+        local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+        ts_update()
+    end,
+  }
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.1',
     requires = { {'nvim-lua/plenary.nvim'} }
@@ -91,22 +102,34 @@ return require('packer').startup(function(use)
   use({
       "kylechui/nvim-surround",
       tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-      config = function()
-          require("nvim-surround").setup({
-              -- Configuration here, or leave empty to use defaults
-          })
-      end
   })
   use 'f-person/git-blame.nvim'
   use 'lewis6991/gitsigns.nvim'
   use 'kdheepak/lazygit.nvim'
   use 'saadparwaiz1/cmp_luasnip'
   use 'rafamadriz/friendly-snippets'
+  use { 'williamboman/mason.nvim',
+    opts = {
+        ensure_installed = {
+            "codelldb",
+            "cpptools",
+        },
+    }
+  }
+
   use {
-    "williamboman/mason.nvim",
+    "mfussenegger/nvim-dap",
+    "jay-babu/mason-nvim-dap.nvim",
+    "theHamsta/nvim-dap-virtual-text",
+    "mfussenegger/nvim-dap-python",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   }
+  -- use 'mfussenegger/nvim-dap'
+  use { "rcarriga/nvim-dap-ui",
+    requires = {"mfussenegger/nvim-dap"}
+  }
+  use 'folke/neodev.nvim' -- recommended for nvim-dap-ui
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
   use({
@@ -114,7 +137,7 @@ return require('packer').startup(function(use)
 	-- follow latest release.
 	tag = "v1.*",
 	-- install jsregexp (optional!:).
-	run = "make install_jsregexp"
+    	run = "make install_jsregexp"
   })
   use 'github/copilot.vim'
   -- Automatically set up your configuration after cloning packer.nvim
