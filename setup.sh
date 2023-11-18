@@ -1,21 +1,23 @@
 #!/bin/bash
 sudo apt update
-sudo apt install gnome-tweaks
-sudo apt install xclip
+sudo apt -y install gnome-tweaks
+sudo apt -y install xclip
+sudo apt -y install unzip        # needed for mason nvim installs like clangd
+sudo apt -y install python3-venv # needed for mason nvim installs like ruff
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
 
 # for ubuntu versions that do not have starship available in snap
-# [ -f ~/.config/starship.toml ] || curl -sS https://starship.rs/install.sh | sh
+[ -f ~/.config/starship.toml ] || curl -sS https://starship.rs/install.sh | sh
 # for ubuntu version that have starship in snap
-sudo snap install starship --edge
+# sudo snap install starship --edge
 
 # download and install nerd font, needed for glyphs used by starship
 FILE=/usr/share/fonts/UbuntuMonoNerdFontMono-Regular.ttf
 if [ ! -f "$FILE" ]; then
-# sudo curl -L https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete%20Mono.ttf  -o "$FILE"
-sudo curl -L https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/UbuntuMonoNerdFontMono-Regular.ttf -o "$FILE"
-fc-cache -f -v
+	# sudo curl -L https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete%20Mono.ttf  -o "$FILE"
+	sudo curl -L https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/UbuntuMono/Regular/UbuntuMonoNerdFontMono-Regular.ttf -o "$FILE"
+	fc-cache -f -v
 fi
 
 # clone the tmux plugin manager tpm, Ctrl+b Shift+i to install plugins
@@ -54,6 +56,15 @@ curl -L https://github.com/sharkdp/bat/releases/download/v0.22.1/bat-musl_0.22.1
 sudo dpkg -i bat.deb
 rm bat.deb
 
+# install python poetry
+curl -sSL https://install.python-poetry.org | python3 -
+
+# install google chrome on ubuntu
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i ./google-chrome*.deb
+sudo apt-get -y install -f
+rm google-chrome*.deb
+
 # create symlinks to dotfiles if they don't already exist
 [ -f ~/.bash_profile ] || ln -s ~/dotfiles/.bash_profile ~/.bash_profile
 [ -f ~/.bash_aliases ] || ln -s ~/dotfiles/.bash_aliases ~/.bash_aliases
@@ -64,5 +75,6 @@ mkdir -p ~/.config && [ -f ~/.config/starship.toml ] || ln -s ~/dotfiles/starshi
 [ -d ~/.config/nvim ] || ln -s ~/dotfiles/nvim ~/.config/nvim
 [ -f /usr/bin/bat ] || sudo ln -s /usr/bin/batcat /usr/bin/bat
 [ -f ~/.ssh/config ] || sudo ln -s ~/dotfiles/config ~/.ssh/config
+[ -f ~/.bashrc ] || cp /etc/skel/.bashrc ~/.bashrc
 
 source ~/.bashrc
