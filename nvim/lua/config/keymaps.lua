@@ -7,3 +7,9 @@
 
 -- After deleting the keymap you want to override, you can add your own:
 vim.keymap.set("n", "<C-p>", ":MarkdownPreviewToggle<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-h>", ":NvimTmuxNavigateLeft<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-j>", ":NvimTmuxNavigateDown<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-k>", ":NvimTmuxNavigateUp<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-l>", ":NvimTmuxNavigateRight<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<C-\\>", ":NvimTmuxNavigateLastActive<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<C-Space>", ":NvimTmuxNavigateNext<CR>", { noremap = true, silent = true })
