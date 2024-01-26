@@ -68,6 +68,7 @@ rm google-chrome*.deb
 # create symlinks to dotfiles if they don't already exist
 [ -f ~/.bash_profile ] || ln -s ~/dotfiles/.bash_profile ~/.bash_profile
 [ -f ~/.bash_aliases ] || ln -s ~/dotfiles/.bash_aliases ~/.bash_aliases
+[ -f ~/.clang-format ] || ln -s ~/dotfiles/.clang-format ~/.clang-format
 [ -f ~/.gitconfig ] || ln -s ~/dotfiles/.gitconfig ~/.gitconfig
 [ -f ~/.tmux.conf ] || ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
 [ -f ~/.vimrc ] || ln -s ~/dotfiles/.vimrc ~/.vimrc
