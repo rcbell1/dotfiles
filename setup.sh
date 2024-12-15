@@ -8,7 +8,7 @@ curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-com
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
 
 # for ubuntu versions that do not have starship available in snap
-[ -f ~/.config/starship.toml ] || curl -sS https://starship.rs/install.sh | sh
+[ -f ~/.config/starship.toml ] || curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin
 # for ubuntu version that have starship in snap
 # sudo snap install starship --edge
 
@@ -66,6 +66,7 @@ sudo apt-get -y install -f
 rm google-chrome*.deb
 
 # create symlinks to dotfiles if they don't already exist
+<<<<<<< Updated upstream
 [ -f ~/.bash_profile ] || ln -s ~/dotfiles/.bash_profile ~/.bash_profile
 [ -f ~/.bash_aliases ] || ln -s ~/dotfiles/.bash_aliases ~/.bash_aliases
 [ -f ~/.gitconfig ] || ln -s ~/dotfiles/.gitconfig ~/.gitconfig
@@ -73,8 +74,17 @@ rm google-chrome*.deb
 [ -f ~/.vimrc ] || ln -s ~/dotfiles/.vimrc ~/.vimrc
 mkdir -p ~/.config && [ -f ~/.config/starship.toml ] || ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
 [ -d ~/.config/nvim ] || ln -s ~/dotfiles/nvim ~/.config/nvim
+=======
+[ -f ~/.bash_profile ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.bash_profile" ~/.bash_profile
+[ -f ~/.bash_aliases ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.bash_aliases" ~/.bash_aliases
+[ -f ~/.gitconfig ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.gitconfig" ~/.gitconfig
+[ -f ~/.tmux.conf ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.tmux.conf" ~/.tmux.conf
+[ -f ~/.vimrc ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.vimrc" ~/.vimrc
+mkdir -p ~/.config || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/starship.toml" ~/.config/starship.toml
+[ -d ~/.config/nvim ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/nvim" ~/.config/nvim
+>>>>>>> Stashed changes
 [ -f /usr/bin/bat ] || sudo ln -s /usr/bin/batcat /usr/bin/bat
-[ -f ~/.ssh/config ] || sudo ln -s ~/dotfiles/config ~/.ssh/config
+[ -f ~/.ssh/config ] || sudo ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/config" ~/.ssh/config
 [ -f ~/.bashrc ] || cp /etc/skel/.bashrc ~/.bashrc
 
 source ~/.bashrc
