@@ -40,7 +40,7 @@ rm ripgrep_13.0.0_amd64.deb
 
 # nodejs and npm support for LSP servers and Copilot in neovim
 # Be sure to type ':Copilot setup' in neovim to install the Copilot binary
-curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
 cat /etc/apt/sources.list.d/nodesource.list
 sudo apt -y install nodejs
 sudo apt -y install build-essential
@@ -66,15 +66,6 @@ sudo apt-get -y install -f
 rm google-chrome*.deb
 
 # create symlinks to dotfiles if they don't already exist
-<<<<<<< Updated upstream
-[ -f ~/.bash_profile ] || ln -s ~/dotfiles/.bash_profile ~/.bash_profile
-[ -f ~/.bash_aliases ] || ln -s ~/dotfiles/.bash_aliases ~/.bash_aliases
-[ -f ~/.gitconfig ] || ln -s ~/dotfiles/.gitconfig ~/.gitconfig
-[ -f ~/.tmux.conf ] || ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
-[ -f ~/.vimrc ] || ln -s ~/dotfiles/.vimrc ~/.vimrc
-mkdir -p ~/.config && [ -f ~/.config/starship.toml ] || ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
-[ -d ~/.config/nvim ] || ln -s ~/dotfiles/nvim ~/.config/nvim
-=======
 [ -f ~/.bash_profile ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.bash_profile" ~/.bash_profile
 [ -f ~/.bash_aliases ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.bash_aliases" ~/.bash_aliases
 [ -f ~/.gitconfig ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.gitconfig" ~/.gitconfig
@@ -82,7 +73,6 @@ mkdir -p ~/.config && [ -f ~/.config/starship.toml ] || ln -s ~/dotfiles/starshi
 [ -f ~/.vimrc ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/.vimrc" ~/.vimrc
 mkdir -p ~/.config || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/starship.toml" ~/.config/starship.toml
 [ -d ~/.config/nvim ] || ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/nvim" ~/.config/nvim
->>>>>>> Stashed changes
 [ -f /usr/bin/bat ] || sudo ln -s /usr/bin/batcat /usr/bin/bat
 [ -f ~/.ssh/config ] || sudo ln -s "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/config" ~/.ssh/config
 [ -f ~/.bashrc ] || cp /etc/skel/.bashrc ~/.bashrc
