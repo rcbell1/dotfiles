@@ -1,5 +1,7 @@
 [user]
 	name = Richard Bell
-	email = rcbell@ucsd.edu
+	email = richard.bell4@gmail.com
 [core]
 	editor = vim
+[init]
+	defaultBranch = main

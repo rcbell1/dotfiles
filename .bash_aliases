@@ -2,13 +2,13 @@
 
 # enable tab autocompletions for git things like branches
 if [ -f ~/.git-completion.bash ]; then
-	. ~/.git-completion.bash
+  . ~/.git-completion.bash
 fi
 # test -f ~/.git-completion.bash && . $_  # same as above but one line
 
 # enable custom prompt with git info
 if [ -f ~/.git-prompt.sh ]; then
-	. ~/.git-prompt.sh
+  . ~/.git-prompt.sh
 fi
 
 export BAT_THEME="Dracula"
@@ -24,7 +24,7 @@ export FZF_DEFAULT_OPTS='--bind J:down,K:up --reverse --ansi --multi --preview "
 # this is useful when using virtualenv for python
 export WORKON_HOME=~/virtualenvs
 function workon {
-	source "$WORKON_HOME/$1/bin/activate"
+  source "$WORKON_HOME/$1/bin/activate"
 }
 
 #custom command prompt
@@ -32,6 +32,12 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
 eval "$(starship init bash)"
+
+# Add CUDA Instalation to path
+export PATH=/usr/local/cuda-12.6/bin${PATH:+:${PATH}}
+
+# Headers for C++/CUDA development in MATLAB
+export CPATH=/usr/local/MATLAB/R2024b/extern/include/:/usr/local/MATLAB/R2024b/toolbox/parallel/gpu/extern/include/
 
 # This is to fix google chrome browser errors when used with WSLg on Windows 11, doesn't seem to fix them though
 export LIBGL_ALWAYS_INDIRECT=1

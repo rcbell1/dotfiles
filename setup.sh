@@ -56,8 +56,9 @@ curl -L https://github.com/sharkdp/bat/releases/download/v0.22.1/bat-musl_0.22.1
 sudo dpkg -i bat.deb
 rm bat.deb
 
-# install python poetry
-curl -sSL https://install.python-poetry.org | python3 -
+# install python package manager
+# curl -sSL https://install.python-poetry.org | python3 -
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # install google chrome on ubuntu
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
