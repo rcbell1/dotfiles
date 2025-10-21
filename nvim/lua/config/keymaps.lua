@@ -1,0 +1,26 @@
+-- -- Make it easy to leave dap-ui Console/REPL windows
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "dap-repl", "dapui_console" },
+--   callback = function(ev)
+--     local function map(mode, lhs, rhs, desc)
+--       vim.keymap.set(
+--         mode,
+--         lhs,
+--         rhs,
+--         { buffer = ev.buf, silent = true, noremap = true, desc = desc }
+--       )
+--     end
+--
+--     -- Standard window nav with Ctrl-h/j/k/l (works from NORMAL and INSERT)
+--     map("n", "<C-h>", "<C-w>h", "Window left")
+--     map("n", "<C-j>", "<C-w>j", "Window down")
+--     map("n", "<C-k>", "<C-w>k", "Window up")
+--     map("n", "<C-l>", "<C-w>l", "Window right")
+--
+--     map("i", "<Esc>", "<Cmd>stopinsert<CR>", "Leave Insert (Esc)")
+--     map("i", "<C-h>", "<Esc><C-w>h", "Window left")
+--     map("i", "<C-j>", "<Esc><C-w>j", "Window down")
+--     map("i", "<C-k>", "<Esc><C-w>k", "Window up")
+--     map("i", "<C-l>", "<Esc><C-w>l", "Window right")
+--   end,
+-- })

@@ -3,3 +3,5 @@
 	email = rcbell@eng.ucsd.edu
 [core]
 	editor = vim
+[push]
+	default = current

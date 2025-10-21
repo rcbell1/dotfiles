@@ -6,3 +6,23 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+
+-- DELETE BELOW
+-- -- ~/.config/nvim/lua/core/autocmds.lua
+--
+-- -- Create a dedicated group for our custom rules
+-- local augroup = vim.api.nvim_create_augroup("MyWindowFixes", { clear = true })
+--
+-- -- Create the autocommand
+-- vim.api.nvim_create_autocmd("WinEnter", {
+--   group = augroup,
+--   pattern = "*", -- This rule will apply when entering any window
+--   callback = function()
+--     -- Check if the window we just entered is the snacks explorer
+--     if vim.bo.filetype == "snacks_picker_list" then
+--       -- This is the magic line: it removes the "fixed width" property,
+--       -- making the window behave like a normal split.
+--       vim.wo.winfixwidth = false
+--     end
+--   end,
+-- })
