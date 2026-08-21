@@ -29,4 +29,30 @@ return {
       vim.api.nvim_set_hl(0, "NvimDapVirtualTextError", { fg = "#f7768e" })
     end,
   },
+  {
+    "mfussenegger/nvim-dap-python",
+    ft = "python",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+    config = function()
+      local dap = require("dap")
+      local dap_python = require("dap-python")
+
+      -- Use the Python from your active environment (uv / venv)
+      -- If you want to be explicit, replace "python" with:
+      -- vim.fn.getcwd() .. "/.venv/bin/python"
+      -- dap_python.setup("python")
+      local debugpy_path = vim.fn.stdpath("data")
+        .. "/mason/packages/debugpy/venv/bin/python"
+
+      -- 2. Setup dap-python with that path
+      dap_python.setup(debugpy_path)
+
+      -- 🔑 Disable justMyCode for ALL Python configurations
+      for _, cfg in ipairs(dap.configurations.python) do
+        cfg.justMyCode = false
+      end
+    end,
+  },
 }

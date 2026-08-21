@@ -8,8 +8,32 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "mfussenegger/nvim-dap", -- For debugging
   },
+  keys = {
+    {
+      "<leader>tp",
+      function()
+        require("neotest").run.run({ extra_args = { "--plot" } })
+      end,
+      desc = "Run Nearest with plots",
+    },
+  },
   config = function()
     require("neotest").setup({
+      discovery = {
+        enabled = true, -- ensure discovery is enabled
+        filter_dir = function(name, rel_path, root)
+          -- Exclude "build" and "src" directories
+          if
+            name == "build"
+            or name == "src"
+            or name == "docs"
+            or name == "containers"
+          then
+            return false
+          end
+          return true -- allow all other directories (default behavior if not filtered)
+        end,
+      },
       -- This is the crucial part: loading the adapter
       adapters = {
         require("neotest-python")({
