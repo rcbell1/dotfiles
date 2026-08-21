@@ -12,7 +12,9 @@ if [ -f ~/.git-prompt.sh ]; then
 fi
 
 export BAT_THEME="Dracula"
-export PATH=$PATH:/home/rbell/.local/bin
+# Prepend, so the tools setup.sh installs locally take precedence over older
+# system-wide copies in /usr/bin, /usr/local/bin and /snap/bin.
+export PATH="$HOME/.local/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,output,node_modules,*.swp,dist,*.coffee}/*" 2> /dev/null'
 export FZF_ALT_C_COMMAND='bfs -type d -nohidden -exclude -name "Music" -exclude -name "Drive"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -41,10 +43,8 @@ export DISPLAY=:0
 alias setbuffs='sudo sysctl -w net.core.rmem_max=33554432;sudo sysctl -w net.core.wmem_max=33554432;sudo sysctl -w net.core.wmem_default=33554432;sudo sysctl -w net.core.rmem_default=33554432'
 alias setethtool='sudo ethtool -G enp181s0f0 tx 4096 rx 4096;sudo ethtool -G enp181s0f1 tx 4096 rx 4096'
 alias duh='du -hd 1'
-# alias bat='batcat'
 alias vim='nvim'
 alias vi='vim'
-alias fd='fdfind'
 alias cat='bat'
 
 # Git aliases
