@@ -82,7 +82,7 @@ Examples:
 EOF
 }
 
-STEPS="starship nvim lazygit ripgrep bat fd node uv fzf tpm font xclip wl-clipboard git-helpers dotlinks terminal"
+STEPS="starship nvim lazygit ripgrep bat fd node uv fzf tpm font xclip wl-clipboard git-helpers dotlinks terminal screen-blank"
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -120,6 +120,11 @@ detail() { printf '    %s%s%s\n' "$C_DIM" "$*" "$C_RESET"; }
 warn() { printf '%swarning:%s %s\n' "$C_YELLOW" "$C_RESET" "$*" >&2; }
 err() { printf '%serror:%s %s\n' "$C_RED" "$C_RESET" "$*" >&2; }
 have_cmd() { command -v "$1" >/dev/null 2>&1; }
+
+is_wsl() {
+  [ -n "${WSL_DISTRO_NAME:-}" ] ||
+    grep -qiE 'microsoft|wsl' /proc/version 2>/dev/null
+}
 
 # ---------------------------------------------------------------------------
 # Preflight: these need root to install, so point at sudo_setup.sh instead of
@@ -622,6 +627,59 @@ install_dotlinks() {
   fi
 }
 
+# GNOME "Screen Blank: Never" plus no idle lock. These are plain gsettings keys
+# so no sudo is involved, which is why they can live here rather than in
+# gnome_setup.sh. Skipped on WSL, where Windows owns the lock screen.
+install_screen_blank() {
+  if is_wsl; then
+    STEP_STATUS="SKIPPED"
+    return 0
+  fi
+  if ! have_cmd gsettings; then
+    STEP_STATUS="SKIPPED"
+    return 0
+  fi
+
+  # idle-delay is a uint32 and "gsettings get" prints it as "uint32 0", so the
+  # wanted value has to be spelled the same way or this could never compare
+  # equal and the step would report a change on every run.
+  local -a wanted=(
+    "org.gnome.desktop.session|idle-delay|uint32 0"
+    "org.gnome.desktop.screensaver|lock-enabled|false"
+    "org.gnome.desktop.screensaver|idle-activation-enabled|false"
+  )
+
+  local schemas entry schema key want current applied=0 absent=0 rest
+  schemas=$(gsettings list-schemas 2>/dev/null)
+  for entry in "${wanted[@]}"; do
+    schema=${entry%%|*}
+    rest=${entry#*|}
+    key=${rest%%|*}
+    want=${rest#*|}
+    if ! printf '%s\n' "$schemas" | grep -qx "$schema"; then
+      absent=$((absent + 1))
+      continue
+    fi
+    if ! current=$(gsettings get "$schema" "$key" 2>/dev/null); then
+      absent=$((absent + 1))
+      continue
+    fi
+    [ "$current" = "$want" ] && continue
+    gsettings set "$schema" "$key" "$want" || return 1
+    applied=$((applied + 1))
+  done
+
+  if [ "$absent" -eq "${#wanted[@]}" ]; then
+    STEP_STATUS="SKIPPED"
+    warn "GNOME screensaver schemas not installed"
+  elif [ "$applied" -gt 0 ]; then
+    STEP_STATUS="CONFIGURED"
+    detail "screen blank set to never, idle lock disabled"
+  else
+    STEP_STATUS="UP-TO-DATE"
+  fi
+}
+
 # Terminal colours and font live in their own script, because Windows Terminal
 # and GNOME Terminal have nothing in common. Its exit codes are mapped onto the
 # step summary here: 3 means nothing needed changing, 4 means no supported
@@ -667,6 +725,7 @@ main() {
   step git-helpers install_git_helpers
   step dotlinks install_dotlinks
   step terminal install_terminal
+  step screen-blank install_screen_blank
 
   summarize
 }

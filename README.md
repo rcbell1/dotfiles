@@ -89,11 +89,29 @@ Terminal ships a built-in scheme named `Ubuntu` and silently renames any user
 scheme that shadows it to `Ubuntu (modified)`, which would make the script
 rewrite `settings.json` on every run.
 
+### Screen blanking
+
+`setup.sh` has a `screen-blank` step that stops the screen blanking and
+locking on idle. It sets three gsettings keys, so no sudo is needed:
+
+| Key | Value | Equivalent GUI setting |
+| --- | --- | --- |
+| `org.gnome.desktop.session idle-delay` | `uint32 0` | Power -> Screen Blank -> Never |
+| `org.gnome.desktop.screensaver lock-enabled` | `false` | Privacy -> Screen Lock -> off |
+| `org.gnome.desktop.screensaver idle-activation-enabled` | `false` | no screensaver on idle |
+
+Skipped on WSL, where Windows owns the lock screen. Automatic suspend is left
+alone on purpose, since disabling it on a laptop is rarely wanted; if you do
+want that, set `sleep-inactive-ac-type` and `sleep-inactive-battery-type` under
+`org.gnome.settings-daemon.plugins.power` to `'nothing'`.
+
 ### gnome_setup.sh
 
 The gnome-tweaks settings, applied to the same `gsettings` keys the GUI writes,
 so neither sudo nor the `gnome-tweaks` package is needed. Exits immediately on
-WSL. Terminal colours are deliberately not here; `terminal_setup.sh` owns those.
+WSL. Two things are deliberately elsewhere to avoid duplication: terminal
+colours belong to `terminal_setup.sh`, and screen blanking is the
+`screen-blank` step of `setup.sh`.
 
 | Area | Setting |
 | --- | --- |
