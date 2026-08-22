@@ -158,6 +158,7 @@ Nothing outside `$HOME`:
 | Tool | Source |
 | --- | --- |
 | nvim | official `nvim-linux-x86_64.tar.gz` release |
+| tree-sitter | `cargo install tree-sitter-cli` (rustup if needed). Official linux builds need GLIBC 2.39 / Ubuntu 24.04; Mason is not allowed to own this tool. |
 | ripgrep, bat, fd | `x86_64-unknown-linux-musl` release tarballs |
 | lazygit | release tarball |
 | node, npm, npx | `nodejs.org/dist/latest` (Current, not LTS) |

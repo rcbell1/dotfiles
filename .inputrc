@@ -1,5 +1,3 @@
-# Key bindings
-# bind -x '"\C-\040": clear' # binds clear to Ctrl+spacebar
-# bind '"\C-k"':kill-line
-bind -x '"\C-h": kill-line'
-bind -x '"\C-b": clear'
+# Readline init file. Use "keyseq": function syntax here.
+# Bash-only commands like `bind -x` belong in ~/.bashrc — a line
+# starting with `bind` unbinds the letter b from self-insert.

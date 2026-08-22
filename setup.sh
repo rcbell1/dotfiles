@@ -82,7 +82,7 @@ Examples:
 EOF
 }
 
-STEPS="starship nvim lazygit ripgrep bat fd node uv fzf tpm font xclip wl-clipboard git-helpers dotlinks terminal screen-blank"
+STEPS="starship nvim tree-sitter lazygit ripgrep bat fd node uv fzf tpm font xclip wl-clipboard git-helpers dotlinks terminal screen-blank"
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -137,7 +137,7 @@ preflight() {
   for cmd in git curl tar; do
     have_cmd "$cmd" || missing+=("$cmd")
   done
-  for cmd in xz fc-cache apt-get dpkg-deb; do
+  for cmd in xz fc-cache apt-get dpkg-deb gcc; do
     have_cmd "$cmd" || soft+=("$cmd")
   done
 
@@ -290,6 +290,37 @@ install_nvim() {
   url="$url/nvim-linux-x86_64.tar.gz"
   extract_tree "$url" "$OPT/nvim" -xz || return 1
   ln -sfn "$OPT/nvim/bin/nvim" "$BIN/nvim" || return 1
+  mark_done "$have"
+}
+
+# Mason's tree-sitter-cli linux builds are produced on Ubuntu 24.04 and need
+# GLIBC 2.39. This script targets older hosts (22.04 / GLIBC 2.35), so the
+# CLI is compiled here with cargo and put on PATH. LazyVim only asks Mason
+# to install tree-sitter-cli when the binary is missing.
+install_tree_sitter() {
+  local latest have
+  latest=$(gh_latest tree-sitter/tree-sitter) || return 1
+  have=$(owned_ver tree-sitter --version | awk '{print $2}')
+  up_to_date "$have" "$latest" && {
+    STEP_STATUS="UP-TO-DATE"
+    return 0
+  }
+
+  if ! have_cmd gcc && ! have_cmd cc; then
+    STEP_STATUS="SKIPPED"
+    warn "C compiler missing, cannot build tree-sitter-cli"
+    return 0
+  fi
+
+  if [ ! -x "$HOME/.cargo/bin/rustc" ]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs |
+      sh -s -- -y --no-modify-path || return 1
+  fi
+  # shellcheck disable=SC1091
+  . "$HOME/.cargo/env"
+
+  cargo install tree-sitter-cli --force --version "${latest#v}" || return 1
+  ln -sfn "$HOME/.cargo/bin/tree-sitter" "$BIN/tree-sitter" || return 1
   mark_done "$have"
 }
 
@@ -711,6 +742,7 @@ main() {
 
   step starship install_starship
   step nvim install_nvim
+  step tree-sitter install_tree_sitter
   step lazygit install_lazygit
   step ripgrep install_ripgrep
   step bat install_bat

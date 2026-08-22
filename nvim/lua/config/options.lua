@@ -6,6 +6,14 @@ local function have(cmd)
   return vim.fn.executable(cmd) == 1
 end
 
+-- Mason's prebuilt tree-sitter-cli is linked against GLIBC 2.39 (Ubuntu
+-- 24.04). This host is 22.04 / GLIBC 2.35, so that binary cannot run.
+-- Prefer a cargo-built CLI on PATH before mason.nvim prepends its bin dir.
+local cargo_bin = vim.fn.expand("~/.cargo/bin")
+if vim.fn.isdirectory(cargo_bin) == 1 then
+  vim.env.PATH = cargo_bin .. ":" .. vim.env.PATH
+end
+
 -- xclip, wl-copy and xsel are all detected by Neovim on their own, and under
 -- WSLg the X11 clipboard is synced with the Windows clipboard, so a yank is
 -- pasteable with ctrl+v anywhere. This fallback only matters on a WSL install
