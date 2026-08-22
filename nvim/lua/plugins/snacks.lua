@@ -1,9 +1,38 @@
+-- LazyVim's snacks terminal maps Ctrl-h/j/k/l to wincmd only. That leaves
+-- you stuck in the bottom terminal instead of handing off to a tmux pane.
+local function term_nav(dir)
+  return function(self)
+    if self:is_floating() then
+      return "<c-" .. dir .. ">"
+    end
+    local move = ({
+      h = "move_cursor_left",
+      j = "move_cursor_down",
+      k = "move_cursor_up",
+      l = "move_cursor_right",
+    })[dir]
+    vim.schedule(function()
+      require("smart-splits")[move]()
+    end)
+  end
+end
+
 return {
   "folke/snacks.nvim",
 
   -- The 'opts' table is the standard LazyVim way to configure a plugin.
   -- All configuration is now correctly nested according to the plugin's API.
   opts = {
+    terminal = {
+      win = {
+        keys = {
+          nav_h = { "<C-h>", term_nav("h"), desc = "Go left split/tmux", expr = true, mode = "t" },
+          nav_j = { "<C-j>", term_nav("j"), desc = "Go down split/tmux", expr = true, mode = "t" },
+          nav_k = { "<C-k>", term_nav("k"), desc = "Go up split/tmux", expr = true, mode = "t" },
+          nav_l = { "<C-l>", term_nav("l"), desc = "Go right split/tmux", expr = true, mode = "t" },
+        },
+      },
+    },
     -- We are configuring the 'picker' snack, which is the file explorer.
     picker = {
       -- This section controls the visual theme of the picker.

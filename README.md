@@ -138,7 +138,8 @@ Not covered by a re-run:
 
 - Neovim plugins - lazy.nvim owns those; `lazy-lock.json` here is
   version-controlled on purpose. Use `:Lazy update` inside the editor.
-- tmux plugins - `prefix + U` inside tmux.
+- tmux plugin updates - `prefix + U` inside tmux. Missing plugins listed in
+  `.tmux.conf` are installed by the `tpm` step of `setup.sh`.
 - Anything a previous sudo-based install left in `/usr` or `/snap`. Those go
   stale but are shadowed, because `~/.local/bin` comes first on `PATH`. To
   clean them up (optional, needs root):
@@ -165,7 +166,7 @@ Nothing outside `$HOME`:
 | starship | vendor install script, `-b ~/.local/bin` |
 | uv | vendor install script, then `uv self update` |
 | fzf | git clone in `~/.fzf` |
-| tpm | git clone in `~/.tmux/plugins/tpm` |
+| tpm | git clone in `~/.tmux/plugins/tpm`, then `bin/install_plugins` |
 | xclip, wl-clipboard | `.deb` unpacked with `dpkg-deb -x` (no root needed) |
 | nerd font | `UbuntuMono.tar.xz` from nerd-fonts releases |
 

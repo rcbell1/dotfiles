@@ -82,7 +82,7 @@ Examples:
 EOF
 }
 
-STEPS="starship nvim tree-sitter lazygit ripgrep bat fd node uv fzf tpm font xclip wl-clipboard git-helpers dotlinks terminal screen-blank"
+STEPS="starship nvim tree-sitter lazygit ripgrep bat fd node uv fzf font xclip wl-clipboard git-helpers dotlinks tpm terminal screen-blank"
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -460,11 +460,22 @@ install_tpm() {
     else
       STEP_STATUS="UPDATED"
     fi
+  else
+    git clone -q https://github.com/tmux-plugins/tpm "$dir" || return 1
+    STEP_STATUS="INSTALLED"
+  fi
+
+  # Pull plugins listed in .tmux.conf (vim-tmux-navigator, etc.) without
+  # requiring prefix+I. Needs ~/.tmux.conf already linked (dotlinks runs first).
+  if ! have_cmd tmux; then
+    warn "tmux missing, skipped plugin install; run ./sudo_setup.sh"
     return 0
   fi
-  git clone -q https://github.com/tmux-plugins/tpm "$dir" || return 1
-  STEP_STATUS="INSTALLED"
-  detail "press prefix + I inside tmux to install the plugins"
+  if [ ! -e "$HOME/.tmux.conf" ]; then
+    warn "~/.tmux.conf missing, skipped plugin install"
+    return 0
+  fi
+  "$dir/bin/install_plugins" >/dev/null || return 1
 }
 
 install_font() {
@@ -750,12 +761,12 @@ main() {
   step node install_node
   step uv install_uv
   step fzf install_fzf
-  step tpm install_tpm
   step font install_font
   step xclip install_xclip
   step wl-clipboard install_wl_clipboard
   step git-helpers install_git_helpers
   step dotlinks install_dotlinks
+  step tpm install_tpm
   step terminal install_terminal
   step screen-blank install_screen_blank
 
