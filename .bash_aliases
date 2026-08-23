@@ -35,9 +35,10 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
 eval "$(starship init bash)"
 
-# This is to fix google chrome browser errors when used with WSLg on Windows 11, doesn't seem to fix them though
-export LIBGL_ALWAYS_INDIRECT=1
-export DISPLAY=:0
+# DISPLAY / XAUTHORITY: live VNC session, else WSLg :0. See ~/.display.sh.
+if [ -f ~/.display.sh ]; then
+	. ~/.display.sh
+fi
 
 # Bash aliases
 alias setbuffs='sudo sysctl -w net.core.rmem_max=33554432;sudo sysctl -w net.core.wmem_max=33554432;sudo sysctl -w net.core.wmem_default=33554432;sudo sysctl -w net.core.rmem_default=33554432'

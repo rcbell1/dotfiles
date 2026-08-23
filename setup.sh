@@ -730,6 +730,7 @@ install_dotlinks() {
   local LINKED=0
   link "$DOTFILES/.bash_profile" "$HOME/.bash_profile"
   link "$DOTFILES/.bash_aliases" "$HOME/.bash_aliases"
+  link "$DOTFILES/.display.sh" "$HOME/.display.sh"
   link "$DOTFILES/.gitconfig" "$HOME/.gitconfig"
   link "$DOTFILES/.tmux.conf" "$HOME/.tmux.conf"
   link "$DOTFILES/.vimrc" "$HOME/.vimrc"
