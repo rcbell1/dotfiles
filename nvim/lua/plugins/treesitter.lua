@@ -12,6 +12,11 @@ return {
           vim.fn.delete(bin)
         end
       end
+      if type(opts.ensure_installed) == "table" then
+        opts.ensure_installed = vim.tbl_filter(function(pkg)
+          return pkg ~= "tree-sitter-cli"
+        end, opts.ensure_installed)
+      end
       return opts
     end,
   },

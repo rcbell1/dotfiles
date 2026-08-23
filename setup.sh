@@ -77,12 +77,13 @@ Environment:
 
 Examples:
   ./setup.sh                    # install or update everything
+  ./setup.sh --only nvim,lazy
   ./setup.sh --only nvim,ripgrep
   ./setup.sh --force --only xclip
 EOF
 }
 
-STEPS="starship nvim tree-sitter lazygit ripgrep bat fd node uv fzf font xclip wl-clipboard git-helpers dotlinks tpm terminal screen-blank"
+STEPS="starship nvim tree-sitter lazygit ripgrep bat fd node uv fzf font xclip wl-clipboard git-helpers dotlinks lazy tpm terminal screen-blank"
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -475,7 +476,85 @@ install_tpm() {
     warn "~/.tmux.conf missing, skipped plugin install"
     return 0
   fi
-  "$dir/bin/install_plugins" >/dev/null || return 1
+  # TPM looks up this env var when parsing ~/.tmux.conf outside a session.
+  # Without it, install_plugins can resolve the plugin path to / and abort.
+  export TMUX_PLUGIN_MANAGER_PATH="${TMUX_PLUGIN_MANAGER_PATH:-$HOME/.tmux/plugins}"
+  mkdir -p "$TMUX_PLUGIN_MANAGER_PATH"
+
+  local plugins_before plugins_after
+  plugins_before=$(
+    find "$TMUX_PLUGIN_MANAGER_PATH" -mindepth 1 -maxdepth 1 -type d \
+      ! -name tpm 2>/dev/null | wc -l
+  )
+  if ! "$dir/bin/install_plugins" >"$WORK/tpm-install.log" 2>&1; then
+    warn "tmux plugin install failed"
+    tail -n 20 "$WORK/tpm-install.log" >&2 || true
+    return 1
+  fi
+  plugins_after=$(
+    find "$TMUX_PLUGIN_MANAGER_PATH" -mindepth 1 -maxdepth 1 -type d \
+      ! -name tpm 2>/dev/null | wc -l
+  )
+  if [ "$plugins_after" -gt "$plugins_before" ] &&
+    [ "$STEP_STATUS" != "INSTALLED" ]; then
+    STEP_STATUS="UPDATED"
+  fi
+
+  # Load newly cloned plugins in an already-running server.
+  if tmux info >/dev/null 2>&1; then
+    tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1 || true
+  fi
+}
+
+# Install Neovim plugins from lazy-lock.json, then Mason packages listed in
+# nvim/lua/plugins/mason.lua. Versions are never pinned; Mason fetches latest.
+install_lazy() {
+  if ! have_cmd nvim; then
+    STEP_STATUS="SKIPPED"
+    warn "nvim missing, skipped plugin install"
+    return 0
+  fi
+  if [ ! -e "$HOME/.config/nvim" ]; then
+    STEP_STATUS="SKIPPED"
+    warn "~/.config/nvim missing, skipped plugin install; run the dotlinks step"
+    return 0
+  fi
+
+  local had=""
+  [ -d "$HOME/.local/share/nvim/lazy/LazyVim" ] && had=1
+
+  local log="$WORK/nvim-bootstrap.log"
+  # restore = lockfile plugins. mason-sync.lua then waits on ensure_installed.
+  if ! nvim --headless -n \
+    "+Lazy! restore" \
+    "+lua require('config.mason-sync').sync()" \
+    "+qa" >"$log" 2>&1; then
+    warn "nvim plugin/mason bootstrap failed"
+    tail -n 40 "$log" >&2 || true
+    return 1
+  fi
+
+  local mason_line status
+  mason_line=$(grep '^DOTFILES_MASON:' "$log" | tail -n 1 || true)
+  status=${mason_line#DOTFILES_MASON:}
+  status=${status%% *}
+  case $status in
+  FAILED | "")
+    warn "mason sync did not finish cleanly"
+    tail -n 40 "$log" >&2 || true
+    return 1
+    ;;
+  UP-TO-DATE)
+    if [ -n "$had" ]; then
+      STEP_STATUS="UP-TO-DATE"
+    else
+      STEP_STATUS="INSTALLED"
+    fi
+    ;;
+  *)
+    mark_done "$had"
+    ;;
+  esac
 }
 
 install_font() {
@@ -766,6 +845,7 @@ main() {
   step wl-clipboard install_wl_clipboard
   step git-helpers install_git_helpers
   step dotlinks install_dotlinks
+  step lazy install_lazy
   step tpm install_tpm
   step terminal install_terminal
   step screen-blank install_screen_blank
