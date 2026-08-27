@@ -11,6 +11,32 @@ if [ -f ~/.git-prompt.sh ]; then
 	. ~/.git-prompt.sh
 fi
 
+# ssh-agent: start one agent per boot and reuse it from every shell, so the
+# "AddKeysToAgent yes" in ~/.ssh/config only prompts for a key passphrase once.
+# The agent details are cached in a file because each shell is a separate
+# process and would otherwise have no way to find an already running agent.
+# Note the agent dies on reboot (or `wsl --shutdown`), so the passphrase is
+# needed once per boot.
+SSH_AGENT_ENV="$HOME/.ssh/agent.env"
+
+ssh_agent_start() {
+	(umask 077 && ssh-agent -s >"$SSH_AGENT_ENV")
+	. "$SSH_AGENT_ENV" >/dev/null
+}
+
+if [ -z "${SSH_AUTH_SOCK:-}" ] && [ -f "$SSH_AGENT_ENV" ]; then
+	. "$SSH_AGENT_ENV" >/dev/null
+fi
+
+# ssh-add -l exits 0 with keys loaded, 1 for an empty agent, 2 when no agent
+# can be reached. Only the last case needs a new agent started.
+ssh_agent_state=0
+ssh-add -l >/dev/null 2>&1 || ssh_agent_state=$?
+if [ "$ssh_agent_state" -eq 2 ]; then
+	ssh_agent_start
+fi
+unset ssh_agent_state
+
 export BAT_THEME="Dracula"
 # Prepend, so the tools setup.sh installs locally take precedence over older
 # system-wide copies in /usr/bin, /usr/local/bin and /snap/bin.

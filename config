@@ -1,14 +1,36 @@
-Host wcsng25
-    Hostname wcsng-25.nrp-nautilus.io
-    User rbell
-    Port 42672
+# ~/.ssh/config - symlinked from this repo by setup.sh.
+#
+# This file is PUBLIC: the dotfiles repo is on GitHub. Internal hostnames, IP
+# addresses, ports and usernames must NOT go in here. Put those in
+# ~/.ssh/config.d/*.conf, which stays on the machine and is never committed.
+#
+# The Include comes first on purpose. For most keywords ssh keeps the first
+# value it finds, so host entries in config.d take precedence over the Host *
+# defaults at the bottom of this file. A glob that matches nothing is not an
+# error, so this is safe on a machine with no config.d yet.
+Include ~/.ssh/config.d/*.conf
 
-Host wcsng26
-    Hostname wcsng-26.nrp-nautilus.io
-    User rbell
-    Port 42672
+Host github.com
+  HostName github.com
+  IdentityFile ~/.ssh/id_ed25519_personal
+  IdentitiesOnly yes
 
-Host wcsng36
-    Hostname wcsng-36.nrp-nautilus.io
-    User rbell
-    Port 42672
+Host gitlab.com
+  Hostname gitlab.com
+  IdentityFile ~/.ssh/id_ed25519_work
+  IdentitiesOnly yes
+
+# The work key is the default for everything else. github.com is excluded
+# because IdentityFile is cumulative rather than overridden: without the
+# negation the work key would be appended to github's identity list and offered
+# there whenever the personal key was not accepted.
+Host * !github.com
+  IdentityFile ~/.ssh/id_ed25519_work
+
+# AddKeysToAgent loads a key into ssh-agent the first time it is used, so the
+# passphrase is typed once per boot instead of once per connection. It needs a
+# reachable agent: the ssh-agent block in .bash_aliases starts one and shares
+# it across shells. Without that agent ssh silently goes back to prompting
+# every time.
+Host *
+  AddKeysToAgent yes

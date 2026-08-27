@@ -725,8 +725,10 @@ link() {
 }
 
 install_dotlinks() {
-  mkdir -p "$HOME/.config" "$HOME/.ssh" || return 1
-  chmod 700 "$HOME/.ssh"
+  # config.d holds the host entries that are too sensitive for a public repo;
+  # ~/.ssh/config includes it, and an empty directory is fine.
+  mkdir -p "$HOME/.config" "$HOME/.ssh/config.d" || return 1
+  chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
   local LINKED=0
   link "$DOTFILES/.bash_profile" "$HOME/.bash_profile"
   link "$DOTFILES/.bash_aliases" "$HOME/.bash_aliases"

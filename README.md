@@ -193,6 +193,45 @@ provider for the `+` register:
 
 `.tmux.conf` picks between `xclip`, `wl-copy` and `clip.exe` the same way.
 
+## SSH
+
+`~/.ssh/config` is a symlink to `config` in this repo, and the passphrase is
+entered once per boot rather than once per connection.
+
+**This repo is public, so no private host details go in `config`.** It keeps
+only the public forges (github.com on the personal key, gitlab.com on the work
+key) and the defaults, and starts with:
+
+```
+Include ~/.ssh/config.d/*.conf
+```
+
+Work and lab hosts live in `~/.ssh/config.d/work.conf`, which is never
+committed. `setup.sh` creates `~/.ssh/config.d` (mode 700) but cannot restore
+its contents, so keep a copy somewhere private; the glob is not an error when
+it matches nothing. The `Include` is first because ssh keeps the *first* value
+it sees for most keywords, so entries in `config.d` override the defaults
+below them.
+
+Passphrase caching has two halves, and it only works with both:
+
+- `AddKeysToAgent yes` under `Host *` in `config` puts a key into `ssh-agent`
+  the first time it is used.
+- The `ssh-agent` block in `.bash_aliases` makes sure an agent is actually
+  running, starting one per boot and recording its socket in `~/.ssh/agent.env`
+  so every later shell reuses that same agent instead of spawning its own.
+  Without this, `AddKeysToAgent` has nowhere to store the key and ssh quietly
+  prompts every time.
+
+The agent dies on reboot or `wsl --shutdown`, so expect one prompt per boot.
+Check what is loaded with `ssh-add -l`, and preload a key with
+`ssh-add ~/.ssh/id_ed25519_work`.
+
+The work key is the default identity via `Host * !github.com`. github.com is
+excluded because `IdentityFile` accumulates instead of being overridden, so
+without the negation the work key would also be offered to GitHub whenever the
+personal key was not accepted.
+
 ## Fonts
 
 `setup.sh` installs the nerd font into `~/.local/share/fonts` for Linux GUI
