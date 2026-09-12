@@ -217,16 +217,24 @@ Passphrase caching has two halves, and it only works with both:
 
 - `AddKeysToAgent yes` under `Host *` in `config` puts a key into `ssh-agent`
   the first time it is used.
-- An agent must actually be running. On native Linux / TigerVNC that is the
-  systemd `--user` `ssh-agent.service` (`$XDG_RUNTIME_DIR/openssh_agent`), which
-  GUI apps such as Cursor inherit; GNOME autostart may prompt once via zenity
-  when the desktop starts. On WSL, `.bash_aliases` starts one agent per boot
-  and records its socket in `~/.ssh/agent.env`. Without a reachable agent ssh
-  quietly prompts every time.
+- An agent must actually be running, independent of how you logged in:
 
-The agent dies on reboot or `wsl --shutdown`, so expect one prompt per boot.
-Check what is loaded with `ssh-add -l`, and preload a key with
-`ssh-add ~/.ssh/id_ed25519_work`.
+  - **Ubuntu GNOME and WSL with systemd** — `setup.sh` enables
+    `ssh-agent.service` on the systemd `--user` bus
+    (`$XDG_RUNTIME_DIR/openssh_agent`). `environment.d` and
+    `dbus-update-activation-environment` publish `SSH_AUTH_SOCK` to GUI apps
+    (Cursor). GNOME autostart may show a zenity passphrase dialog once per
+    session; otherwise the first `git`/`ssh` use prompts and caches the key.
+  - **WSL without systemd** — `.display.sh` (from `.bash_profile` and
+    `.bash_aliases`) starts one agent per boot and records it in
+    `~/.ssh/agent.env`.
+  - **TigerVNC** — the same systemd unit; `~/.vnc/xstartup` also exports the
+    socket because `gnome-session --builtin` does not start Ubuntu's
+    graphical-session agent by itself.
+
+Without a reachable agent ssh quietly prompts every time. The agent dies on
+reboot or `wsl --shutdown`. Check what is loaded with `ssh-add -l`, and
+preload a key with `ssh-add ~/.ssh/id_ed25519_work`.
 
 The work key is the default identity via `Host * !github.com`. github.com is
 excluded because `IdentityFile` accumulates instead of being overridden, so

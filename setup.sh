@@ -728,7 +728,8 @@ install_dotlinks() {
   # config.d holds the host entries that are too sensitive for a public repo;
   # ~/.ssh/config includes it, and an empty directory is fine.
   mkdir -p "$HOME/.config" "$HOME/.ssh/config.d" \
-    "$HOME/.config/systemd/user" "$HOME/.config/autostart" || return 1
+    "$HOME/.config/systemd/user" "$HOME/.config/autostart" \
+    "$HOME/.config/environment.d" || return 1
   chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
   local LINKED=0
   link "$DOTFILES/.bash_profile" "$HOME/.bash_profile"
@@ -749,12 +750,14 @@ install_dotlinks() {
     "$HOME/.config/autostart/ssh-add.desktop"
   link "$DOTFILES/autostart/gnome-keyring-ssh.desktop" \
     "$HOME/.config/autostart/gnome-keyring-ssh.desktop"
+  link "$DOTFILES/environment.d/99-ssh-agent.conf" \
+    "$HOME/.config/environment.d/99-ssh-agent.conf"
   if [ ! -e "$HOME/.bashrc" ] && [ -f /etc/skel/.bashrc ]; then
     cp /etc/skel/.bashrc "$HOME/.bashrc" && detail "copied default ~/.bashrc"
     LINKED=$((LINKED + 1))
   fi
 
-  # User ssh-agent must start with the systemd user session, not GNOME.
+  # User ssh-agent for Ubuntu GNOME, VNC, SSH, and WSL-with-systemd.
   # Safe to re-run; enable --now is a no-op when already active.
   if have_cmd systemctl && systemctl --user show-environment >/dev/null 2>&1; then
     systemctl --user daemon-reload >/dev/null 2>&1 || true

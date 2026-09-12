@@ -1,7 +1,7 @@
 #!/bin/sh
 # Load default SSH keys into the session agent if none are present.
-# Used by GNOME autostart; safe to run by hand. Does not prompt if the
-# agent already has keys or cannot be reached.
+# GNOME autostart (Ubuntu login or VNC) uses zenity when DISPLAY is set;
+# from a terminal, ssh-add prompts on the tty if askpass is unavailable.
 
 if [ -z "${SSH_AUTH_SOCK:-}" ] && [ -n "${XDG_RUNTIME_DIR:-}" ]; then
   SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/openssh_agent"
@@ -19,9 +19,10 @@ ssh-add -l >/dev/null 2>&1 || rc=$?
 [ "$rc" -eq 2 ] && exit 0
 
 ASKPASS="${HOME}/.local/bin/ssh-askpass-zenity"
-[ -x "$ASKPASS" ] || exit 1
-
-SSH_ASKPASS="$ASKPASS"
-SSH_ASKPASS_REQUIRE=force
-export SSH_ASKPASS SSH_ASKPASS_REQUIRE
-exec ssh-add </dev/null
+if [ -x "$ASKPASS" ] && [ -n "${DISPLAY:-}" ]; then
+  SSH_ASKPASS="$ASKPASS"
+  SSH_ASKPASS_REQUIRE=force
+  export SSH_ASKPASS SSH_ASKPASS_REQUIRE
+  exec ssh-add </dev/null
+fi
+exec ssh-add
