@@ -41,3 +41,12 @@ else
 fi
 unset _dpy
 unset -f _dotfiles_vnc_display
+
+# Session ssh-agent. Prefer the systemd user socket so shells and GUI apps
+# (Cursor) share it. Fall back to an already-valid SSH_AUTH_SOCK (WSL
+# agent.env, or forwarded agent) when that socket is not running.
+if [ -n "${XDG_RUNTIME_DIR:-}" ] && [ -S "${XDG_RUNTIME_DIR}/openssh_agent" ]; then
+  export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/openssh_agent"
+elif [ -z "${SSH_AUTH_SOCK:-}" ] || [ ! -S "${SSH_AUTH_SOCK}" ]; then
+  :
+fi

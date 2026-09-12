@@ -1,0 +1,4 @@
+#!/bin/sh
+# SSH_ASKPASS helper for ssh-add. Prints the passphrase on stdout.
+exec zenity --password --title="Unlock SSH key" \
+  --text="Enter passphrase for your SSH key"

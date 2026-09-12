@@ -29,8 +29,7 @@ Host * !github.com
 
 # AddKeysToAgent loads a key into ssh-agent the first time it is used, so the
 # passphrase is typed once per boot instead of once per connection. It needs a
-# reachable agent: the ssh-agent block in .bash_aliases starts one and shares
-# it across shells. Without that agent ssh silently goes back to prompting
-# every time.
+# reachable agent: systemd --user ssh-agent on Linux/VNC, or the ssh-agent
+# block in .bash_aliases (WSL). Without an agent ssh silently prompts every time.
 Host *
   AddKeysToAgent yes

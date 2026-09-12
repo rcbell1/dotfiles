@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Unlock SSH key
+Comment=Add the default SSH key to ssh-agent if it is not already loaded
+Exec=sh -c 'exec "$HOME/.local/bin/ssh-add-session"'
+X-GNOME-Autostart-enabled=true
+Terminal=false
+NoDisplay=true

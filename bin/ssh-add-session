@@ -1,0 +1,27 @@
+#!/bin/sh
+# Load default SSH keys into the session agent if none are present.
+# Used by GNOME autostart; safe to run by hand. Does not prompt if the
+# agent already has keys or cannot be reached.
+
+if [ -z "${SSH_AUTH_SOCK:-}" ] && [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+  SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/openssh_agent"
+  export SSH_AUTH_SOCK
+fi
+
+if [ -z "${SSH_AUTH_SOCK:-}" ] || [ ! -S "$SSH_AUTH_SOCK" ]; then
+  exit 0
+fi
+
+rc=0
+ssh-add -l >/dev/null 2>&1 || rc=$?
+# 0 = identities loaded, 1 = reachable but empty, 2 = cannot connect
+[ "$rc" -eq 0 ] && exit 0
+[ "$rc" -eq 2 ] && exit 0
+
+ASKPASS="${HOME}/.local/bin/ssh-askpass-zenity"
+[ -x "$ASKPASS" ] || exit 1
+
+SSH_ASKPASS="$ASKPASS"
+SSH_ASKPASS_REQUIRE=force
+export SSH_ASKPASS SSH_ASKPASS_REQUIRE
+exec ssh-add </dev/null

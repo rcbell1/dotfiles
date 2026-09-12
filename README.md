@@ -217,11 +217,12 @@ Passphrase caching has two halves, and it only works with both:
 
 - `AddKeysToAgent yes` under `Host *` in `config` puts a key into `ssh-agent`
   the first time it is used.
-- The `ssh-agent` block in `.bash_aliases` makes sure an agent is actually
-  running, starting one per boot and recording its socket in `~/.ssh/agent.env`
-  so every later shell reuses that same agent instead of spawning its own.
-  Without this, `AddKeysToAgent` has nowhere to store the key and ssh quietly
-  prompts every time.
+- An agent must actually be running. On native Linux / TigerVNC that is the
+  systemd `--user` `ssh-agent.service` (`$XDG_RUNTIME_DIR/openssh_agent`), which
+  GUI apps such as Cursor inherit; GNOME autostart may prompt once via zenity
+  when the desktop starts. On WSL, `.bash_aliases` starts one agent per boot
+  and records its socket in `~/.ssh/agent.env`. Without a reachable agent ssh
+  quietly prompts every time.
 
 The agent dies on reboot or `wsl --shutdown`, so expect one prompt per boot.
 Check what is loaded with `ssh-add -l`, and preload a key with

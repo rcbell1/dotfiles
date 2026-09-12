@@ -727,7 +727,8 @@ link() {
 install_dotlinks() {
   # config.d holds the host entries that are too sensitive for a public repo;
   # ~/.ssh/config includes it, and an empty directory is fine.
-  mkdir -p "$HOME/.config" "$HOME/.ssh/config.d" || return 1
+  mkdir -p "$HOME/.config" "$HOME/.ssh/config.d" \
+    "$HOME/.config/systemd/user" "$HOME/.config/autostart" || return 1
   chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
   local LINKED=0
   link "$DOTFILES/.bash_profile" "$HOME/.bash_profile"
@@ -740,10 +741,30 @@ install_dotlinks() {
   link "$DOTFILES/starship.toml" "$HOME/.config/starship.toml"
   link "$DOTFILES/nvim" "$HOME/.config/nvim"
   link "$DOTFILES/config" "$HOME/.ssh/config"
+  link "$DOTFILES/systemd/user/ssh-agent.service" \
+    "$HOME/.config/systemd/user/ssh-agent.service"
+  link "$DOTFILES/bin/ssh-askpass-zenity" "$BIN/ssh-askpass-zenity"
+  link "$DOTFILES/bin/ssh-add-session" "$BIN/ssh-add-session"
+  link "$DOTFILES/autostart/ssh-add.desktop" \
+    "$HOME/.config/autostart/ssh-add.desktop"
+  link "$DOTFILES/autostart/gnome-keyring-ssh.desktop" \
+    "$HOME/.config/autostart/gnome-keyring-ssh.desktop"
   if [ ! -e "$HOME/.bashrc" ] && [ -f /etc/skel/.bashrc ]; then
     cp /etc/skel/.bashrc "$HOME/.bashrc" && detail "copied default ~/.bashrc"
     LINKED=$((LINKED + 1))
   fi
+
+  # User ssh-agent must start with the systemd user session, not GNOME.
+  # Safe to re-run; enable --now is a no-op when already active.
+  if have_cmd systemctl && systemctl --user show-environment >/dev/null 2>&1; then
+    systemctl --user daemon-reload >/dev/null 2>&1 || true
+    if systemctl --user enable --now ssh-agent.service >/dev/null 2>&1; then
+      :
+    else
+      warn "could not enable systemd --user ssh-agent.service"
+    fi
+  fi
+
   if [ "$LINKED" -eq 0 ]; then
     STEP_STATUS="UP-TO-DATE"
   else

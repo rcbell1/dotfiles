@@ -1,0 +1,15 @@
+[Unit]
+Description=OpenSSH Agent
+Documentation=man:ssh-agent(1)
+# Replaces Ubuntu's graphical-session-pre.target unit. TigerVNC uses
+# gnome-session --builtin, which never starts that target, so the distro
+# agent never comes up. default.target is the systemd user session instead.
+
+[Service]
+Type=simple
+Environment=SSH_AUTH_SOCK=%t/openssh_agent
+ExecStart=/usr/bin/ssh-agent -D -a %t/openssh_agent
+ExecStartPost=/bin/sh -c 'systemctl --user set-environment SSH_AUTH_SOCK=%t/openssh_agent'
+
+[Install]
+WantedBy=default.target
