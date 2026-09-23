@@ -1,10 +1,15 @@
 -- Options are automatically loaded before lazy.nvim startup
--- LazyVim already sets clipboard = "unnamedplus", so the only thing needed for
--- yanks to reach other applications is a working provider for the + register.
+-- LazyVim sets clipboard to "" when SSH_CONNECTION is set, so OSC 52 can own
+-- the + register. This host has a real clipboard provider (xclip / wl-copy /
+-- xsel, or clip.exe below), and yy/p should share that clipboard across tmux
+-- panes. User options load after LazyVim's, and LazyVim restores this value
+-- on VeryLazy, so the override sticks.
 
 local function have(cmd)
   return vim.fn.executable(cmd) == 1
 end
+
+vim.opt.clipboard = "unnamedplus"
 
 -- Mason's prebuilt tree-sitter-cli is linked against GLIBC 2.39 (Ubuntu
 -- 24.04). This host is 22.04 / GLIBC 2.35, so that binary cannot run.
