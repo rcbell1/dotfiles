@@ -29,16 +29,24 @@ _dotfiles_vnc_display() {
   return 1
 }
 
-if _dpy=$(_dotfiles_vnc_display); then
-  export DISPLAY=$_dpy
-  if [ -z "${XAUTHORITY:-}" ] && [ -f "$HOME/.Xauthority" ]; then
-    export XAUTHORITY="$HOME/.Xauthority"
+# GDM sources this through the login shell before the compositor starts, so
+# a desktop session (local, RDP or VNC with a session type) must keep the
+# DISPLAY it is given or gnome-session fails with "cannot open display".
+case ${XDG_SESSION_TYPE:-} in
+wayland | x11) ;;
+*)
+  if _dpy=$(_dotfiles_vnc_display); then
+    export DISPLAY=$_dpy
+    if [ -z "${XAUTHORITY:-}" ] && [ -f "$HOME/.Xauthority" ]; then
+      export XAUTHORITY="$HOME/.Xauthority"
+    fi
+  else
+    # Same default as before VNC detection existed. Do not require VNC.
+    export LIBGL_ALWAYS_INDIRECT=1
+    export DISPLAY=:0
   fi
-else
-  # Same default as before VNC detection existed. Do not require VNC.
-  export LIBGL_ALWAYS_INDIRECT=1
-  export DISPLAY=:0
-fi
+  ;;
+esac
 unset _dpy
 unset -f _dotfiles_vnc_display
 
