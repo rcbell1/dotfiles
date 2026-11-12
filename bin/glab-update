@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# Install or upgrade glab from the .deb on its latest GitLab release.
+#
+# GitLab publishes glab as a .deb per release but runs no apt repository, so
+# "apt upgrade" never sees a newer version; this script stands in for one.
+# The snap is not an alternative: it is strictly confined and its bundled ssh
+# cannot reach ssh-agent, so every SSH clone asks for the key passphrase.
+
+set -euo pipefail
+
+PROJECT="gitlab-org%2Fcli"
+RELEASES="https://gitlab.com/gitlab-org/cli/-/releases"
+
+usage() {
+  cat <<'EOF'
+Usage: glab-update [--force]
+
+Installs the latest glab release from its .deb (asks for sudo), or does
+nothing when that version is already installed.
+
+Options:
+  --force      Reinstall even if the latest version is already installed
+  -h, --help   Show this help and exit
+EOF
+}
+
+force=0
+case "${1:-}" in
+"") ;;
+--force) force=1 ;;
+-h | --help)
+  usage
+  exit 0
+  ;;
+*)
+  usage >&2
+  exit 2
+  ;;
+esac
+
+for cmd in curl dpkg dpkg-query sha256sum sudo apt-get; do
+  command -v "$cmd" >/dev/null 2>&1 || {
+    echo "glab-update: $cmd is required" >&2
+    exit 1
+  }
+done
+
+arch=$(dpkg --print-architecture)
+tag=$(curl -fsSL --max-time 30 \
+  "https://gitlab.com/api/v4/projects/$PROJECT/releases/permalink/latest" |
+  grep -Po '"tag_name":\s*"\K[^"]*')
+latest=${tag#v}
+have=$(dpkg-query -W -f='${Version}' glab 2>/dev/null || true)
+
+if [ "$force" -eq 0 ] && [ "$have" = "$latest" ]; then
+  echo "glab $have is the latest release"
+else
+  deb="glab_${latest}_linux_${arch}.deb"
+  work=$(mktemp -d)
+  trap 'rm -rf "$work"' EXIT
+  # apt reads a local .deb as the _apt user and warns when it cannot.
+  chmod 755 "$work"
+  echo "downloading $deb"
+  curl -fsSL --max-time 300 -o "$work/$deb" "$RELEASES/$tag/downloads/$deb"
+  curl -fsSL --max-time 30 -o "$work/checksums.txt" \
+    "$RELEASES/$tag/downloads/checksums.txt"
+  # sha256sum --ignore-missing would pass a file that has no line at all.
+  grep -E "  $deb\$" "$work/checksums.txt" >"$work/deb.sha256" || {
+    echo "glab-update: $deb is not in the release's checksums.txt" >&2
+    exit 1
+  }
+  (cd "$work" && sha256sum --check --quiet deb.sha256)
+  sudo apt-get install -y "$work/$deb"
+  echo "glab ${have:-(none)} -> $latest"
+fi
+
+resolved=$(command -v glab || true)
+if [ "$resolved" != /usr/bin/glab ]; then
+  echo "glab-update: warning: glab on PATH is ${resolved:-missing}, not" \
+    "/usr/bin/glab; remove that copy (a snap or a ~/.local/bin binary)" >&2
+fi

@@ -241,6 +241,22 @@ excluded because `IdentityFile` accumulates instead of being overridden, so
 without the negation the work key would also be offered to GitHub whenever the
 personal key was not accepted.
 
+## glab
+
+Install glab from the `.deb` on its GitLab release, not the snap. The snap is
+strictly confined and its bundled ssh cannot reach `ssh-agent`, so every SSH
+clone asks for the key passphrase, and clones from a shell without a terminal
+(Cursor's agent) fail.
+
+GitLab runs no apt repository for glab, so `apt upgrade` never updates it.
+`setup.sh` links `bin/glab-update` into `~/.local/bin`; run `glab-update`
+(it asks for sudo) to install the latest release, for example when glab
+prints its "Update available" notice. It verifies the `.deb` against the
+release's `checksums.txt` and does nothing when the latest version is already
+installed. Remove any other copy first (`sudo snap remove glab`, or a
+`~/.local/bin/glab` from a release tarball), since it would shadow
+`/usr/bin/glab`; `glab-update` warns when one does.
+
 ## Fonts
 
 `setup.sh` installs the nerd font into `~/.local/share/fonts` for Linux GUI

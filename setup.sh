@@ -753,6 +753,7 @@ install_dotlinks() {
     "$HOME/.config/systemd/user/ssh-agent.service"
   link "$DOTFILES/bin/ssh-askpass-zenity" "$BIN/ssh-askpass-zenity"
   link "$DOTFILES/bin/ssh-add-session" "$BIN/ssh-add-session"
+  link "$DOTFILES/bin/glab-update" "$BIN/glab-update"
   link "$DOTFILES/autostart/ssh-add.desktop" \
     "$HOME/.config/autostart/ssh-add.desktop"
   link "$DOTFILES/autostart/gnome-keyring-ssh.desktop" \
