@@ -39,6 +39,13 @@ unset _script_dir
 # report the stale system copy as already installed.
 export PATH="$BIN:$PATH"
 
+# Anaconda and similar toolchains ship their own gsettings whose GLib cannot
+# load the system dconf module, so writes silently land in a keyfile that GNOME
+# never reads. Always use the system binary when there is one.
+if [ -x /usr/bin/gsettings ]; then
+  gsettings() { /usr/bin/gsettings "$@"; }
+fi
+
 MUSL_TARGET="x86_64-unknown-linux-musl"
 
 FORCE=0

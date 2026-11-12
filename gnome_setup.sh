@@ -80,6 +80,13 @@ is_wsl() {
     grep -qiE 'microsoft|wsl' /proc/version 2>/dev/null
 }
 
+# Anaconda and similar toolchains ship their own gsettings whose GLib cannot
+# load the system dconf module, so writes silently land in a keyfile that GNOME
+# never reads. Always use the system binary when there is one.
+if [ -x /usr/bin/gsettings ]; then
+  gsettings() { /usr/bin/gsettings "$@"; }
+fi
+
 schema_present() {
   gsettings list-schemas 2>/dev/null | grep -qx "$1"
 }

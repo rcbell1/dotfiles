@@ -30,6 +30,13 @@ FONT_SIZE=12
 SCHEME_NAME="Ubuntu Dark"
 FONT_SRC="$HOME/.local/share/fonts/UbuntuMonoNerdFont"
 
+# Anaconda and similar toolchains ship their own gsettings whose GLib cannot
+# load the system dconf module, so writes silently land in a keyfile that GNOME
+# Terminal never reads. Always use the system binary when there is one.
+if [ -x /usr/bin/gsettings ]; then
+  gsettings() { /usr/bin/gsettings "$@"; }
+fi
+
 # Ubuntu's terminal look: aubergine background with the Tango palette.
 BG="#300A24"
 FG="#FFFFFF"
