@@ -30,8 +30,12 @@ for key in "$HOME/.ssh/id_ed25519_work" "$HOME/.ssh/id_ed25519_personal"; do
 done
 [ "$#" -eq 0 ] && exit 0
 
+# A terminal is the better prompt when there is one: it needs no graphical
+# toolkit, and forcing askpass there fails outright where zenity is absent,
+# such as WSL, which sets DISPLAY through WSLg regardless. The GNOME
+# autostart entry has no tty, so it still takes the zenity path.
 ASKPASS="${HOME}/.local/bin/ssh-askpass-zenity"
-if [ -x "$ASKPASS" ] && [ -n "${DISPLAY:-}" ]; then
+if [ ! -t 0 ] && [ -x "$ASKPASS" ] && [ -n "${DISPLAY:-}" ] && command -v zenity >/dev/null 2>&1; then
   SSH_ASKPASS="$ASKPASS"
   SSH_ASKPASS_REQUIRE=force
   export SSH_ASKPASS SSH_ASKPASS_REQUIRE
