@@ -40,6 +40,20 @@ if [ -f ~/.display.sh ]; then
 	. ~/.display.sh
 fi
 
+# Unlock the SSH key once per login session. The systemd --user ssh-agent
+# holds the key for as long as the session lives, so this prompts in the
+# first terminal and is a no-op in every later one. GNOME has the autostart
+# .desktop for this; WSL has no session manager that runs it, hence here.
+# Interactive shells with a terminal only, so scripts and editor shells are
+# never blocked on a passphrase prompt.
+case $- in
+*i*)
+	if [ -t 0 ] && [ -x ~/.local/bin/ssh-add-session ]; then
+		~/.local/bin/ssh-add-session
+	fi
+	;;
+esac
+
 # Bash aliases
 alias setbuffs='sudo sysctl -w net.core.rmem_max=33554432;sudo sysctl -w net.core.wmem_max=33554432;sudo sysctl -w net.core.wmem_default=33554432;sudo sysctl -w net.core.rmem_default=33554432'
 alias setethtool='sudo ethtool -G enp181s0f0 tx 4096 rx 4096;sudo ethtool -G enp181s0f1 tx 4096 rx 4096'
