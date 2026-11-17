@@ -760,6 +760,8 @@ install_dotlinks() {
     "$HOME/.config/autostart/gnome-keyring-ssh.desktop"
   link "$DOTFILES/environment.d/99-ssh-agent.conf" \
     "$HOME/.config/environment.d/99-ssh-agent.conf"
+  link "$DOTFILES/environment.d/50-time.conf" \
+    "$HOME/.config/environment.d/50-time.conf"
   if [ ! -e "$HOME/.bashrc" ] && [ -f /etc/skel/.bashrc ]; then
     cp /etc/skel/.bashrc "$HOME/.bashrc" && detail "copied default ~/.bashrc"
     LINKED=$((LINKED + 1))

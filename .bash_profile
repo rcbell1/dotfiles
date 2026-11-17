@@ -1,3 +1,5 @@
+export TZ=America/Los_Angeles
+export LC_TIME=en_US.UTF-8
 if [ -f ~/.bashrc ]; then
   . ~/.bashrc
 fi
