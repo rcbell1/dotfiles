@@ -46,7 +46,7 @@ Applies GNOME desktop tweaks on a native (non-WSL) Ubuntu machine:
   Windows      minimize and maximize buttons in the titlebar, new windows
                centred, workspaces spanning all displays
   Touchpad     tap to click, natural scrolling
-  Top bar      battery percentage, weekday in the clock
+  Top bar      battery percentage, weekday in the clock, 12-hour clock
 
 Needs no sudo, and no gnome-tweaks package: these are the same gsettings keys
 that the gnome-tweaks GUI writes. Safe to re-run.
@@ -160,6 +160,8 @@ set_key org.gnome.desktop.peripherals.touchpad natural-scroll true
 info "Top bar"
 set_key org.gnome.desktop.interface show-battery-percentage true
 set_key org.gnome.desktop.interface clock-show-weekday true
+# The top-bar clock ignores LC_TIME; this key alone picks 12h or 24h.
+set_key org.gnome.desktop.interface clock-format "'12h'"
 
 printf '\n%sSummary%s\n' "$C_BOLD" "$C_RESET"
 if [ "$CHECK_ONLY" -eq 1 ]; then
