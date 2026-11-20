@@ -166,7 +166,7 @@ Nothing outside `$HOME`:
 | lazygit | release tarball |
 | node, npm, npx | `nodejs.org/dist/latest` (Current, not LTS) |
 | starship | vendor install script, `-b ~/.local/bin` |
-| uv | vendor install script, then `uv self update` |
+| uv | vendor install script when missing; never updated, since projects pin it exactly |
 | fzf | git clone in `~/.fzf` |
 | nvim plugins | `nvim --headless "+Lazy! restore"` against `lazy-lock.json` |
 | mason tools | `ensure_installed` in `nvim/lua/plugins/mason.lua`; setup.sh waits |

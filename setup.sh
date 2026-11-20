@@ -418,18 +418,14 @@ install_node() {
   mark_done "$have"
 }
 
+# Installed when missing, never updated: projects pin uv exactly ([tool.uv]
+# required-version) and refuse any other, so a self-update to the newest
+# release would break them until they move their pin. Each one's error names
+# the `uv self update <version>` that matches it.
 install_uv() {
-  local out
   if have_cmd uv && [ "$FORCE" -eq 0 ]; then
-    if out=$(uv self update 2>&1); then
-      if printf '%s' "$out" | grep -qi 'latest version'; then
-        STEP_STATUS="UP-TO-DATE"
-      else
-        STEP_STATUS="UPDATED"
-      fi
-      return 0
-    fi
-    warn "uv self update failed, falling back to the installer"
+    STEP_STATUS="PRESENT"
+    return 0
   fi
   local had=""
   have_cmd uv && had=1
@@ -758,12 +754,12 @@ install_dotlinks() {
     "$HOME/.config/autostart/ssh-add.desktop"
   link "$DOTFILES/autostart/gnome-keyring-ssh.desktop" \
     "$HOME/.config/autostart/gnome-keyring-ssh.desktop"
-  link "$DOTFILES/environment.d/99-pixi.conf" \
-    "$HOME/.config/environment.d/99-pixi.conf"
   link "$DOTFILES/environment.d/99-ssh-agent.conf" \
     "$HOME/.config/environment.d/99-ssh-agent.conf"
   link "$DOTFILES/environment.d/50-time.conf" \
     "$HOME/.config/environment.d/50-time.conf"
+  link "$DOTFILES/environment.d/99-pixi.conf" \
+    "$HOME/.config/environment.d/99-pixi.conf"
   if [ ! -e "$HOME/.bashrc" ] && [ -f /etc/skel/.bashrc ]; then
     cp /etc/skel/.bashrc "$HOME/.bashrc" && detail "copied default ~/.bashrc"
     LINKED=$((LINKED + 1))
