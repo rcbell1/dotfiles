@@ -1,5 +1,13 @@
 export TZ=America/Los_Angeles
 export LC_TIME=en_US.UTF-8
+# Pixi, where a project's README installed it (setup.sh does not), for SSH
+# logins, which environment.d/99-pixi.conf does not reach.
+if [ -d "${HOME}/.pixi/bin" ]; then
+  case ":${PATH}:" in
+    *":${HOME}/.pixi/bin:"*) ;;
+    *) export PATH="${HOME}/.pixi/bin:${PATH}" ;;
+  esac
+fi
 if [ -f ~/.bashrc ]; then
   . ~/.bashrc
 fi

@@ -758,6 +758,8 @@ install_dotlinks() {
     "$HOME/.config/autostart/ssh-add.desktop"
   link "$DOTFILES/autostart/gnome-keyring-ssh.desktop" \
     "$HOME/.config/autostart/gnome-keyring-ssh.desktop"
+  link "$DOTFILES/environment.d/99-pixi.conf" \
+    "$HOME/.config/environment.d/99-pixi.conf"
   link "$DOTFILES/environment.d/99-ssh-agent.conf" \
     "$HOME/.config/environment.d/99-ssh-agent.conf"
   link "$DOTFILES/environment.d/50-time.conf" \
